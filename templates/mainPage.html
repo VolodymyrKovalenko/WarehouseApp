@@ -3,10 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Warehouse</title>
-	<link rel="stylesheet" type="text/css" href="reset.css">
+	<link rel="stylesheet" type="text/css" href="../static/css/reset.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="var25_css.css">
+	<link rel="stylesheet" type="text/css" href="../static/css/var25_css.css">
 </head>
 <body>
 	<div class="container leftPart">
@@ -50,13 +50,13 @@
 		</div>
 		<div class="row">
 			<div class="col-md-9 offset-3">
-				<div class="mainList">
-					{% extends "base.html" %}
-					{% block content %}
-					<div><p>{{goods.category}}</p><p>{{goods.material}}</p><p>{{goods.fashion}}</p><p>{{goods.brand}}</p></div>
-					{% endfor %}
-					{% endblock %}
-				</div>
+{#				<div class="mainList">#}
+{#					{% extends "base.html" %}#}
+{#					{% block content %}#}
+{#					<div><p>{{goods.category}}</p><p>{{goods.material}}</p><p>{{goods.fashion}}</p><p>{{goods.brand}}</p></div>#}
+{#					{% endfor %}#}
+{#					{% endblock %}#}
+{#				</div>#}
 			</div>
 		</div>
 	</div>
