@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Warehouse</title>
+	<link rel="stylesheet" type="text/css" href="reset.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="var25_css.css">
+</head>
+<body>
+	<div class="container leftPart">
+		<div class="row">
+			<div class="col-3">
+				<div class="userData">
+					<p class="login">LOGIN</p>
+					<p class="firm">ROGA I KOPUTA</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-3">
+				<div class="userMenu">
+					<a href="#">+ Add application</a>
+					<a href="#">+ Show all applicatons</a>
+					<a href="#">+ Show my materials</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9 offset-3">
+				<div class="logo">
+					<img class="img-responsive logoImg" src="http://martlet.by/upload/iblock/e38/e38cf53d35fa7500d0f5cfeb1f78acec.png"></img>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-9 offset-3">
+				<div class="mainMenu">
+					<ul>
+						<li>Category</li>
+						<li>Material</li>
+						<li>Fashion</li>
+						<li>Brand</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-9 offset-3">
+				<div class="mainList">
+					{% extends "base.html" %}
+					{% block content %}
+					<div><p>{{goods.category}}</p><p>{{goods.material}}</p><p>{{goods.fashion}}</p><p>{{goods.brand}}</p></div>
+					{% endfor %}
+					{% endblock %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+</body>
+</html>

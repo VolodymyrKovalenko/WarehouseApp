@@ -1,0 +1,139 @@
+body{
+	background-color: rgb(246,246,246);
+}
+
+/*Resgistration,sign-in page*/
+
+.signIn{
+	background-color: white;
+	border: 1px solid #969697;
+	margin: 50px 0;
+	padding: 0;
+	width: 100%;
+}
+.signIn input{
+	display: block;
+	width: 90%;
+	margin: 10px auto;
+	padding-left: 2%;
+}
+.signIn .signHead{
+	margin: 0;
+	padding: 0;
+	font-size: 1.5em;
+}
+.signIn .signHead p{
+	margin: 0;
+	padding: 0;
+}
+.goToSingIn, .goToRegistration{
+	display: inline-block;
+	text-decoration: none;
+	color: inherit;
+	width: 48%;
+	margin: 0;
+	padding: 0;
+	border: none;
+	padding-left: 5%;
+}
+.goToSingIn:hover, .goToRegistration:hover{
+	text-decoration: none;
+	color: rgb(0,83,160);
+}
+.goToSingIn:hover:not(.offFocus), .goToRegistration:hover:not(.offFocus){
+	color: initial;
+}
+.offFocus{
+	background-color: rgb(238,238,238);
+	border: 1px solid #969697;
+	float: left;
+	border-top: none;
+	border-left: none;
+	color: rgb(0,83,160);
+}
+.goToSingIn + .offFocus{
+	float: right;
+	border-left: 1px solid #969697;
+	border-right: none;
+}
+.signIn input[type="submit"]{
+	background: -webkit-gradient(linear, left bottom, left top, from(rgb(0,83,160)), to(rgb(0,119,187))) ;
+	background: linear-gradient(to top, rgb(0,83,160), rgb(0,119,187)) ;
+	color: white;
+	font-weight: bold;
+	font-size: 1.2em;
+	border: 1px solid rgb(0,83,160);
+}
+.signIn input[type="submit"]:hover{
+	background: rgb(0,83,160);
+}
+
+/*Main page*/
+.leftPart{
+	margin-left: 3%;
+	padding: 0;
+}
+.userData{	
+	font-weight: bold;
+	font-size: 1.2;
+	color: rgb(0,83,160);
+	float: left;
+	position: fixed;
+	height: 10%;
+	margin-top: 3%;
+	padding-left: 2%;
+	
+}
+
+.userMenu{
+	position: fixed;
+	margin-top: 15%;
+}
+.userMenu a{
+	display: block;
+	border: 3px solid rgb(0,83,160);
+	border-radius: 5px;
+	background-color: rgb(138,173,215);
+	color: white;
+	padding: 3px;
+	margin-top: 10px;
+}
+.userMenu a:hover{
+	text-decoration: none;
+}
+.mainMenu li{
+	display: inline-block;
+	width: 20%;
+	margin-right: 4%;
+}
+
+.mainList{
+	height: 1000px;
+}
+.mainList p{
+	display: inline-block;
+}
+
+.logo{
+	float: right;
+	width: 90%;
+	padding: 0;
+	margin: 0;
+}
+.logoImg{
+	float: right;
+	width: 100%;
+	max-width: 320px;
+	height: auto;
+	padding: 0;
+	margin: 0;
+}
+.dropdown{
+	display: inline-block;
+	width: 19%;
+	margin-right: 5%;
+}
+.mainMenu{
+	margin-top: 30px;
+	background: 
+}
