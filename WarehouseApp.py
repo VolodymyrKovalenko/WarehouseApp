@@ -1,9 +1,9 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import relationship
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:234344@localhost/sklad_materialov_db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config.from_pyfile('config.cfg')
 db = SQLAlchemy(app)
 
 
@@ -25,7 +25,20 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
-admin = User('Ostap44','i44easy99labs55','admin@example.com','dydyaStopa')
+class Category(db.Model):
+    __tablename__ = 'category'
+    id = db.Column(db.INTEGER, primary_key=True)
+    name = db.Column(db.String(45), unique=True)
+    material = relationship("Material", back_populates="category")
+
+class Material(db.Model):
+    __tablename__ = 'material'
+    id = db.Column(db.INTEGER, primary_key=True)
+    name = db.Column(db.String(45), unique=True)
+    category_id = db.Column(db.INTEGER, db.ForeignKey('category.id'))
+    category = relationship("Category", back_populates="material")
+
+admin = User('Ostap16','i44easy99labs57','admin3@example.com','dydyaStopa3')
 
 db.create_all() # In case user table doesn't exists already. Else remove it.
 
