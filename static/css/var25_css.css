@@ -91,12 +91,12 @@ body{
 }
 .userMenu a{
 	display: block;
-	border: 3px solid rgb(0,83,160);
 	border-radius: 5px;
-	background-color: rgb(138,173,215);
-	color: white;
 	padding: 3px;
 	margin-top: 10px;
+	background-color: rgb(238,238,238);
+	border: 1px solid #969697;
+	color: rgb(0,83,160);
 }
 .userMenu a:hover{
 	text-decoration: none;
@@ -106,14 +106,22 @@ body{
 	width: 20%;
 	margin-right: 4%;
 }
-
 .mainList{
 	height: 1000px;
 }
+.mainList div{
+	margin: 0;
+	padding: 0;
+}
 .mainList p{
 	display: inline-block;
+	width: 20%;
+	margin-right: 4%;
+	padding: 5px;
 }
-
+.mainList div:hover{
+	background-color: #C0DBE8;
+}
 .logo{
 	float: right;
 	width: 90%;
@@ -128,12 +136,7 @@ body{
 	padding: 0;
 	margin: 0;
 }
-.dropdown{
-	display: inline-block;
-	width: 19%;
-	margin-right: 5%;
-}
+
 .mainMenu{
 	margin-top: 30px;
-	background: 
 }
