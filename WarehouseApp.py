@@ -2,15 +2,43 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:234344@localhost:3306/new1_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:234344@localhost/sklad_materialov_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-
 db = SQLAlchemy(app)
 
-class Example(db.Model):
-    __tablename__ = 'example'
-    id = db.Column('id', db.INTEGER, primary_key=True)
-    data = db.Column('data', db.Unicode)
+
+class User(db.Model):
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    login = db.Column(db.String(80), unique=True)
+    password = db.Column(db.String(80), unique=True)
+    email = db.Column(db.String(120), unique=True)
+    username = db.Column(db.String(80), unique=True)
+
+    def __init__(self, login, password, email, username):
+        self.login = login
+        self.password = password
+        self.email = email
+        self.username = username
+
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+admin = User('Ostap44','i44easy99labs55','admin@example.com','dydyaStopa')
+
+db.create_all() # In case user table doesn't exists already. Else remove it.
+
+db.session.add(admin)
+
+db.session.commit() # This is needed to write the changes to database
+
+User.query.all()
+
+User.query.filter_by(username='admin').first()
+
+
+
 
 @app.route('/')
 def hello_world():
