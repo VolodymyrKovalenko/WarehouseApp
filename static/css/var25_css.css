@@ -27,6 +27,7 @@ body{
 	padding: 0;
 }
 .goToSingIn, .goToRegistration{
+	text-align: center;
 	display: inline-block;
 	text-decoration: none;
 	color: inherit;
@@ -34,7 +35,6 @@ body{
 	margin: 0;
 	padding: 0;
 	border: none;
-	padding-left: 5%;
 }
 .goToSingIn:hover, .goToRegistration:hover{
 	text-decoration: none;
@@ -111,6 +111,7 @@ body{
 }
 .userMenu a:hover{
 	text-decoration: none;
+	background-color: rgb(218,218,256);
 }
 .mainTable{
 	width: 100%;
@@ -147,4 +148,9 @@ body{
 
 .mainMenu{
 	margin-top: 30px;
+}
+
+.logOut:hover{
+	cursor: pointer;
+	background-color: rgb(218,218,256);
 }
