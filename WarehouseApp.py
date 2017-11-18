@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
-from wtforms import Form,StringField,TextAreaField,PasswordField,validators
+from wtforms import Form,StringField,TextAreaField,PasswordField,validators, BooleanField
 from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
@@ -79,6 +79,8 @@ class RegisterForm(Form):
     email = StringField('Email', [validators.Length(min=6,max=50)])
     username = StringField('Username',[validators.Length(min=4, max=25)])
 
+
+
 @app.route('/SignUp', methods=['GET', 'POST'])
 def registration():
     form = RegisterForm(request.form)
@@ -95,18 +97,27 @@ def registration():
         return redirect(url_for('main_page'))
     return render_template('registration.html',form=form)
 
+class LoginForm(Form):
+    login = StringField('Login', [validators.Length(min=5, max=50)])
+    password = PasswordField('Password', [validators.DataRequired()])
+    #remember = BooleanField('remember me')
 
+@app.route('/LogIn',methods=['GET','POST'])
+def login():
+    form = LoginForm(request.form)
+    if request.method == 'POST' and form.validate():
+        login_form = request.form['login']
+        password_form_candidate = request.form['password']
+        user = User.query.filter_by(login=login_form).first()
 
+        if sha256_crypt.verify(password_form_candidate,user.password):
+            return redirect(url_for('main_page'))
+    return render_template('singIn.html')
 
 
 @app.route('/')
 def hello_world():
     return 'Hello World!'
-
-
-@app.route('/LogIn')
-def login():
-    return render_template('singIn.html')
 
 @app.route('/main')
 def main_page():

@@ -19,9 +19,9 @@
 					</div>
 
 					<form method="post" action="">
-						<input type="text" name="inputLogin" placeholder="Login">
-						<input type="password" name="inputPassword" placeholder="Password">
-						<input type="submit" name="singIn" value="Sing in">
+						<input type="text" name="login" placeholder="Login" value="{{request.form.login}}">
+						<input type="password" name="password" placeholder="Password" value="{{request.form.password}}">
+						<p><input type="submit" name="singIn" value="Submit"></p>
 					</form>
 				</div>
 			</div>
