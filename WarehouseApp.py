@@ -1,6 +1,8 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
+from wtforms import Form,StringField,TextAreaField,PasswordField,validators
+from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
 app.config.from_pyfile('config.cfg')
@@ -33,23 +35,18 @@ class Category(db.Model):
     name = db.Column(db.String(45), unique=True)
     fasons = relationship('Fason', backref='category', lazy='dynamic')
 
-associate_table1 = db.Table('association1',
-                            db.Column('id', db.INTEGER, db.ForeignKey('fason.id')),
-                            db.Column('id', db.INTEGER, db.ForeignKey('brand.id'))
-                            )
-
 class Fason(db.Model):
     __tablename__ = 'fason'
     id = db.Column(db.INTEGER, primary_key=True)
     name = db.Column(db.String(45), unique=True)
     category_id = db.Column(db.INTEGER, db.ForeignKey('category.id'))
-    brands = db.relationship('Brand', secondary=associate_table1, backref=db.backref('brands', lazy='dynamic'))
-
+    brands = relationship('Brand', backref='fason', lazy='dynamic')
 
 class Brand(db.Model):
     __tablename__ = 'brand'
     id = db.Column(db.INTEGER, primary_key=True)
     name = db.Column(db.String(45), unique=True)
+    fason_id = db.Column(db.INTEGER, db.ForeignKey('fason.id'))
     model_numbers = relationship('Model_number', backref='brand', lazy='dynamic')
 
 class Model_number(db.Model):
@@ -63,17 +60,41 @@ class Model_number(db.Model):
 
 
 
-#admin = User('Ostap16','i44easy99labs57','admin3@example.com','dydyaStopa3')
-
-db.create_all() # In case user table doesn't exists already. Else remove it.
-
+#admin = User('Ostap39','i44easy99lab61','admin10@example.com','dydyaStosa7')
+#db.create_all() # In case user table doesn't exists already. Else remove it.
 #db.session.add(admin)
-
-db.session.commit() # This is needed to write the changes to database
-
+#db.session.commit() # This is needed to write the changes to database
 #User.query.all()
-
 #User.query.filter_by(username='admin').first()
+
+
+
+class RegisterForm(Form):
+    login = StringField('Login', [validators.Length(min=5, max=50)])
+    password = StringField('Password',[
+        validators.DataRequired(),
+        validators.EqualTo('confirm',message='Password do not match')
+    ])
+    confirm = PasswordField('Confirm Password')
+    email = StringField('Email', [validators.Length(min=6,max=50)])
+    username = StringField('Username',[validators.Length(min=4, max=25)])
+
+@app.route('/SignUp', methods=['GET', 'POST'])
+def registration():
+    form = RegisterForm(request.form)
+    if request.method == 'POST' and form.validate():
+        login = form.login.data
+        password = sha256_crypt.encrypt(str(form.password.data))
+        email = form.email.data
+        username = form.username.data
+
+        admin = User(login,password,email,username)
+        db.session.add(admin)
+        db.session.commit()
+
+        return redirect(url_for('main_page'))
+    return render_template('registration.html',form=form)
+
 
 
 
@@ -82,9 +103,6 @@ db.session.commit() # This is needed to write the changes to database
 def hello_world():
     return 'Hello World!'
 
-@app.route('/SignUp')
-def registrarion():
-    return render_template('registration.html')
 
 @app.route('/LogIn')
 def login():
@@ -96,4 +114,5 @@ def main_page():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.secret_key='secret123'
+    app.run(debug=True)
