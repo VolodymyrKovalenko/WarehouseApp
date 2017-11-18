@@ -18,19 +18,14 @@
 						<a class="goToRegistration" href="/SignUp">Registration</a>
 					</div>
 
-                    {% from "_formhelpers.html" import render_field %}
 					<form method="post" action="">
-{#						<input type="text" name="inputLogin" placeholder="Login">#}
-{#						<input type="password" name="inputPassword" placeholder="Password">#}
-{#						<input type="email" name="inputEmail" placeholder="Email">#}
-{#						<input type="text" name="inputUsername" placeholder="Company name">#}
-{#						<input type="submit" name="registration" value="Registration">#}
-                        {{ render_field(form.login,class_="form-control") }}
-                        {{ render_field(form.password,class_="form-control") }}
-                        {{ render_field(form.confirm,class_="form-control") }}
-                        {{ render_field(form.email,class_="form-control") }}
-                        {{ render_field(form.username,class_="form-control") }}
-                        <p><input type="submit" class="btn btn-primary" value="Submit"></p>
+                            {{ form.login(placeholder="Login") }}
+                            {{form.password(placeholder="Password") }}
+                            {{form.confirm(placeholder="Confirm password") }}
+                            {{form.email(placeholder="Email")}}
+                            {{form.username(placeholder="Company name")}}
+{#                        <p><input type="submit" class="btn btn-primary" value="Submit"></p>#}
+                        <p><input type="submit" name="registration" value="Registration"></p>
 					</form>
 				</div>
 			</div>
