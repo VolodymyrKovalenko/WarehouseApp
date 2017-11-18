@@ -15,6 +15,7 @@
 				<div class="userData">
 					<p class="login">LOGIN</p>
 					<p class="firm">ROGA I KOPUTA</p>
+					<input type="button" name="logOut" value="Logout" class="logOut">
 				</div>
 			</div>
 		</div>
@@ -32,24 +33,31 @@
 		<div class="row">
 			<div class="col-md-9 offset-3">
 				<div class="logo">
-					<img class="img-responsive logoImg" src="http://martlet.by/upload/iblock/e38/e38cf53d35fa7500d0f5cfeb1f78acec.png"></img>
+					<img class="img-responsive logoImg" src="http://www.specommerce.com.s3.amazonaws.com/images/icons/icon-warehousing-solutions.png"></img>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-9 offset-3">
-				<div class="mainMenu">
-					<ul>
-						<li>Category</li>
-						<li>Type(Fason)</li>
-						<li>Manufacturer(Brand)</li>
-						<li>Model number</li>
-					</ul>
-				</div>
+				<table class="mainTable">
+					<thead class="mainMenu">
+						<th>Category</th>
+						<th>Type(Fason)</th>
+						<th>Manufacturer(Brand)</th>
+						<th>Model number</th>
+					</thead>
+					<tbody class="mainList">
+						<tr>
+							<td>Category</td>
+							<td>Type(Fason)</td>
+							<td>Manufacturer(Brand)</td>
+							<td>Model number</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-9 offset-3">
+		
 <!-- {#				<div class="mainList">#}
 {#					{% extends "base.html" %}#}
 {#					{% block content %}#}
@@ -58,13 +66,7 @@
 {#					{% endblock %}#}
 {#				</div>#} -->
 
-				<div class="mainList">
-					<div>
-						<p>Category</p><p>Type(Fason)</p><p>Manufacturer(Brand)</p><p>Model number</p>
-					</div>
-				</div>
-			</div>
-		</div>
+			
 	</div>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>

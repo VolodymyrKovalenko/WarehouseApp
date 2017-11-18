@@ -73,7 +73,18 @@ body{
 	margin-left: 3%;
 	padding: 0;
 }
+.logOut{
+	display: block;
+	border-radius: 5px;
+	padding: 2px 7px;
+	font-size: 0.9em;
+	margin: 5px auto;
+	background-color: rgb(238,238,238);
+	border: 1px solid #969697;
+	color: rgb(0,83,160);
+}
 .userData{	
+	text-align: center;
 	font-weight: bold;
 	font-size: 1.2;
 	color: rgb(0,83,160);
@@ -92,7 +103,7 @@ body{
 .userMenu a{
 	display: block;
 	border-radius: 5px;
-	padding: 3px;
+	padding: 5px;
 	margin-top: 10px;
 	background-color: rgb(238,238,238);
 	border: 1px solid #969697;
@@ -101,26 +112,23 @@ body{
 .userMenu a:hover{
 	text-decoration: none;
 }
-.mainMenu li{
-	display: inline-block;
-	width: 20%;
-	margin-right: 4%;
+.mainTable{
+	width: 100%;
+	text-align: center;
+	border: 1px solid rgb(0,83,160);
+	border-collapse: collapse;
 }
-.mainList{
-	height: 1000px;
+.mainMenu th{
+	color: rgb(0,83,160);
+	font-weight: bold;
+	border: 1px solid rgb(0,83,160);
+	background-color: rgb(238,238,238);
 }
-.mainList div{
-	margin: 0;
-	padding: 0;
-}
-.mainList p{
-	display: inline-block;
-	width: 20%;
-	margin-right: 4%;
-	padding: 5px;
-}
-.mainList div:hover{
+.mainList tr:hover{
 	background-color: #C0DBE8;
+}
+.mainList td{
+	border: 1px solid rgb(0,83,160);
 }
 .logo{
 	float: right;
@@ -131,7 +139,7 @@ body{
 .logoImg{
 	float: right;
 	width: 100%;
-	max-width: 320px;
+	max-width: 100px;
 	height: auto;
 	padding: 0;
 	margin: 0;
