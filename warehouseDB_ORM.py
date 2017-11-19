@@ -51,6 +51,36 @@ class Model_number(db.Model):
     name = db.Column(db.String(45),unique=True)
     brand_id = db.Column(db.INTEGER,db.ForeignKey('brand.id'))
 
+class Application_receipt(db.Model):
+    __tablename__ = 'application_receipt'
+    id = db.Column(db.INTEGER, primary_key=True)
+    category = db.Column(db.String(45))
+    fason = db.Column(db.String(45))
+    brand = db.Column(db.String(45))
+    model = db.Column(db.String(45))
+    quantity = db.Column(db.INTEGER)
+    date_adoption = db.Column(db.Date)
+    date_issue = db.Column(db.Date)
+    provider = db.Column(db.String(45))
+
+    def __init__(self, category, fason, brand,model,quantity,date_adoption,date_issue, provider):
+        self.category = category
+        self.fason = fason
+        self.brand = brand
+        self.model = model
+        self.quantity = quantity
+        self.date_issue = date_issue
+        self.date_adoption = date_adoption
+        self.provider = provider
+
+
+
+db.create_all()
+
+
+
+
+
 #admin = User('Ostap39','i44easy99lab61','admin10@example.com','dydyaStosa7')
 #db.create_all() # In case user table doesn't exists already. Else remove it.
 #db.session.add(admin)

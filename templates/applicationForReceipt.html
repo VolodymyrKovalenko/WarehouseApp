@@ -20,6 +20,17 @@
 
 					<form method="post" action="">
                             <!-- форма -->
+                        <input type="text" name="category" placeholder="Category" value="{{request.form.category}}">
+                        <input type="text" name="fason" placeholder="Fason" value="{{request.form.fason}}">
+                        <input type="text" name="brand" placeholder="Brand" value="{{request.form.brand}}">
+                        <input type="text" name="model" placeholder="Model number" value="{{request.form.model}}">
+                        <input type="number" name="quantity" placeholder="Quantity" value="{{request.form.quantity}}">
+                        <input type="date" name="date_issue" placeholder="Date of issue" value="{{request.form.date_issue}}">
+{#                        {{request.form.category(placeholder="Category") }}#}
+{#                        {{request.form.fason(placeholder="Fason") }}#}
+{#                        {{request.form.brand(placeholder="Brand") }}#}
+{#                        {{request.form.model(placeholder="Model")}}#}
+{#                        {{request.form.quantity(placeholder="Quantity")}}#}
                     	<p><input type="submit" class="btn btn-primary" value="Create application"></p>                        
 					</form>
 				</div>
