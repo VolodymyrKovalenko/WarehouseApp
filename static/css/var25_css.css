@@ -1,5 +1,6 @@
 body{
 	background-color: rgb(246,246,246);
+	background-image: url("../images/Start_img.png")
 }
 
 /*Resgistration,sign-in page*/
@@ -127,6 +128,7 @@ body{
 
 	border: 1px solid rgb(0,83,160);
 	border-collapse: collapse;
+	color: #fffefa;
 }
 .mainMenu th{
 	padding: 7px 1px;
@@ -137,7 +139,7 @@ body{
 	background-color: rgb(238,238,238);
 }
 .mainList tr:hover{
-	background-color: #C0DBE8;
+	background-color: gray;
 }
 .mainList td{
 	padding: 7px 1px;

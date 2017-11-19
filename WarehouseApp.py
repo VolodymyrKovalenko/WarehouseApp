@@ -46,7 +46,7 @@ def login():
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return render_template('startPage.html')
 
 @app.route('/main',methods=['GET','POST'])
 def main_page():

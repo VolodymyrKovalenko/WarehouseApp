@@ -10,12 +10,13 @@
 </head>
 <body>
 	<div class="container">
+
 		<div class="row">
 			<div class="col-10 offset-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
 				<div class="signIn">
 					<div class="signHead">
-						<a class="goToSingIn offFocus" href="/LogIn"><img src="https://cdn.pixabay.com/photo/2017/06/20/14/55/icon-2423349_960_720.png" class="icon">Sing in</a>
-						<a class="goToRegistration" href="/SignUp"><img src="https://media.giphy.com/media/RHfAFyguPkQi4/giphy.gif" class="icon">Registration</a>
+						<a class="goToSingIn offFocus" href="/LogIn"><img src="../static/images/log_icon.png" class="icon">Sing in</a>
+						<a class="goToRegistration" href="/SignUp"><img src="../static/images/SignUp_icon.gif" class="icon">Registration</a>
 					</div>
 
 					<form method="post" action="">
@@ -24,7 +25,8 @@
                             {{form.confirm(placeholder="Confirm password") }}
                             {{form.email(placeholder="Email")}}
                             {{form.username(placeholder="Company name")}}
-{#                        <p><input type="submit" class="btn btn-primary" value="Registration"></p>#}
+                          <p><input type="submit" name="LogIn" value="Submit"></p>
+
 					</form>
 				</div>
 			</div>
