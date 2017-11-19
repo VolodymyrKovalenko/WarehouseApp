@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session, json
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import sha256_crypt
+from sqlalchemy.orm import query
+
 
 from forms import LoginForm, RegisterForm, ReceiptForm
 from warehouseDB_ORM import User,Category,Fason,Brand,Model_number, Application_receipt
@@ -46,10 +48,11 @@ def login():
 def hello_world():
     return 'Hello World!'
 
-@app.route('/main')
+@app.route('/main',methods=['GET','POST'])
 def main_page():
     sesion_message = session['curent_user']  # counterpart for session
-    return render_template('mainPage.html',curent_user=sesion_message)
+    products = Application_receipt.query.all()
+    return render_template('mainPage.html',curent_user=sesion_message,allApp=products)
 
 @app.route('/receipt',methods=['GET','POST'])
 def receipt_application():

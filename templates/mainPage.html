@@ -53,16 +53,18 @@
                         <th>Provider</th>
 					</thead>
 					<tbody class="mainList">
+                    {% for product in allApp %}
 						<tr>
-							<td>Category</td>
-							<td>Type(Fason)</td>
-							<td>Manufacturer(Brand)</td>
-							<td>Model number</td>
-                            <td>25</td>
-                            <td>2017-11-07</td>
-                            <td>2017-12-05</td>
-                            <td>DydyaStopa</td>
+							<td>{{ product.category }}</td>
+							<td>{{ product.fason }}</td>
+							<td>{{ product.brand }}</td>
+							<td>{{ product.model }}</td>
+                            <td>{{ product.quantity }}</td>
+                            <td>{{ product.date_adoption }}</td>
+                            <td>{{ product.date_issue }}</td>
+                            <td>{{ product.provider }}</td>
 						</tr>
+                    {% endfor %}
 					</tbody>
 				</table>
 			</div>
