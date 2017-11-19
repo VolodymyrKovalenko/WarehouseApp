@@ -6,10 +6,11 @@ body{
 
 .signIn{
 	background-color: white;
-	border: 1px solid #969697;
-	margin: 50px 0;
+	border: 1px solid rgb(205,205,205);
+	margin: 30% auto;
 	padding: 0;
 	width: 100%;
+	max-width: 450px;
 }
 .signIn input{
 	display: block;
@@ -22,6 +23,9 @@ body{
 	padding: 0;
 	font-size: 1.5em;
 }
+.signIn form{
+	margin: 25px auto;
+}
 .signIn .signHead p{
 	margin: 0;
 	padding: 0;
@@ -33,7 +37,7 @@ body{
 	color: inherit;
 	width: 48%;
 	margin: 0;
-	padding: 0;
+	padding:10px 0;
 	border: none;
 }
 .goToSingIn:hover, .goToRegistration:hover{
@@ -45,7 +49,7 @@ body{
 }
 .offFocus{
 	background-color: rgb(238,238,238);
-	border: 1px solid #969697;
+	border: 1px solid rgb(205,205,205);
 	float: left;
 	border-top: none;
 	border-left: none;
@@ -53,8 +57,13 @@ body{
 }
 .goToSingIn + .offFocus{
 	float: right;
-	border-left: 1px solid #969697;
+	border-left: 1px solid rgb(205,205,205);
 	border-right: none;
+}
+.icon{
+	height: 30px;
+	width: 30px;
+	margin-right: 20px;
 }
 .signIn input[type="submit"]{
 	background: -webkit-gradient(linear, left bottom, left top, from(rgb(0,83,160)), to(rgb(0,119,187))) ;
@@ -63,6 +72,7 @@ body{
 	font-weight: bold;
 	font-size: 1.2em;
 	border: 1px solid rgb(0,83,160);
+	margin-top: 25px;
 }
 .signIn input[type="submit"]:hover{
 	background: rgb(0,83,160);
