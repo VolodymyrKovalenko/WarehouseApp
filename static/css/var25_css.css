@@ -80,8 +80,9 @@ body{
 
 /*Main page*/
 .leftPart{
-	margin-left: 3%;
+	margin: 0 auto;
 	padding: 0;
+	position: fixed;
 }
 .logOut{
 	display: block;
@@ -93,31 +94,28 @@ body{
 	border: 1px solid #969697;
 	color: rgb(0,83,160);
 }
-.userData{	
+.userData{
 	text-align: center;
 	font-weight: bold;
 	font-size: 1.2;
-	color: rgb(0,83,160);
-	float: left;
-	position: fixed;
+	color: rgb(0,83,160);	
 	height: 10%;
-	margin-top: 3%;
-	padding-left: 2%;
-	
+	margin: 15%;
 }
-
-.userMenu{
-	position: fixed;
-	margin-top: 15%;
+.userMenu{	
+	margin: 0 auto;
+	padding: 0;
 }
 .userMenu a{
 	display: block;
 	border-radius: 5px;
 	padding: 5px;
+	margin: 0 auto;
 	margin-top: 10px;
 	background-color: rgb(238,238,238);
 	border: 1px solid #969697;
 	color: rgb(0,83,160);
+	max-width: 200px;
 }
 .userMenu a:hover{
 	text-decoration: none;
@@ -126,12 +124,15 @@ body{
 .mainTable{
 	width: 100%;
 	text-align: center;
+
 	border: 1px solid rgb(0,83,160);
 	border-collapse: collapse;
 }
 .mainMenu th{
+	padding: 7px 1px;
 	color: rgb(0,83,160);
 	font-weight: bold;
+	vertical-align: middle;
 	border: 1px solid rgb(0,83,160);
 	background-color: rgb(238,238,238);
 }
@@ -139,6 +140,7 @@ body{
 	background-color: #C0DBE8;
 }
 .mainList td{
+	padding: 7px 1px;
 	border: 1px solid rgb(0,83,160);
 }
 .logo{
