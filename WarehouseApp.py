@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import sha256_crypt
 from sqlalchemy.orm import query
+from sqlalchemy.sql import select
 
 
 from forms import LoginForm, RegisterForm, ReceiptForm
@@ -14,7 +15,9 @@ db = SQLAlchemy(app)
 
 @app.route('/SignUp', methods=['GET', 'POST'])
 def registration():
+
     form = RegisterForm(request.form)
+
     if request.method == 'POST' and form.validate():
         login = form.login.data
         password = sha256_crypt.encrypt(str(form.password.data))
@@ -45,14 +48,21 @@ def login():
 
 
 @app.route('/')
-def hello_world():
+def start_page():
+    session.clear()
     return render_template('startPage.html')
 
 @app.route('/main',methods=['GET','POST'])
 def main_page():
     sesion_message = session['curent_user']  # counterpart for session
-    products = Application_receipt.query.all()
+    # products = Application_receipt.query.all()
+    conn = db.engine.connect()
+    s = select([Application_receipt]).where(Application_receipt.provider == sesion_message)
+    products = conn.execute(s)
+
+
     return render_template('mainPage.html',curent_user=sesion_message,allApp=products)
+
 
 @app.route('/receipt',methods=['GET','POST'])
 def receipt_application():

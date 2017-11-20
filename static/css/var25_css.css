@@ -80,6 +80,15 @@ body{
 }
 
 /*Main page*/
+/*.login{*/
+	/*color: #00cd00;*/
+/*}*/
+.main_caption{
+	padding-top:30px;
+	font-size: 20px;
+	color: white;
+}
+
 .leftPart{
 	margin: 0 auto;
 	padding: 0;
@@ -87,13 +96,15 @@ body{
 }
 .logOut{
 	display: block;
+	width:80px;
 	border-radius: 5px;
 	padding: 2px 7px;
 	font-size: 0.9em;
 	margin: 5px auto;
-	background-color: rgb(238,238,238);
-	border: 1px solid #969697;
-	color: rgb(0,83,160);
+	background-color: grey;
+	border: 1px solid #f8f8fa;
+	color: rgb(248, 249, 255);
+	text-decoration: none;
 }
 .userData{
 	text-align: center;
@@ -113,14 +124,15 @@ body{
 	padding: 5px;
 	margin: 0 auto;
 	margin-top: 10px;
-	background-color:  #b3b3b3;
-	border: 1px solid #969697;
+	background-color: rgb(0, 117, 211);
+
+	border: 1px solid #f2ecf4;
 	color: rgb(255, 255, 255);
 	max-width: 200px;
 }
 .userMenu a:hover{
 	text-decoration: none;
-	background-color: rgb(0, 117, 211);
+	background-color:  gray;
 }
 .mainTable{
 	width: 100%;
@@ -166,7 +178,9 @@ body{
 
 .logOut:hover{
 	cursor: pointer;
-	background-color: rgb(218,218,256);
+	background-color: #5b5b5b;
+	color: white;
+	text-decoration: none;
 }
 
 
