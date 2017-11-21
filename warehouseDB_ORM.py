@@ -1,11 +1,20 @@
+#!/usr/bin/env python
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 from flask import Flask, render_template, request, redirect, url_for, session, json
 
+from flask_migrate import Migrate, MigrateCommand
+from flask_script import Manager
+import click
 
 app = Flask(__name__)
 app.config.from_pyfile('config.cfg')
 db = SQLAlchemy(app)
+
+migrate = Migrate(app, db)
+manager = Manager(app)
+
+manager.add_command('db', MigrateCommand)
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -24,32 +33,6 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
-
-class Category(db.Model):
-    __tablename__ = 'category'
-    id = db.Column(db.INTEGER, primary_key=True)
-    name = db.Column(db.String(45), unique=True)
-    fasons = relationship('Fason', backref='category', lazy='dynamic')
-
-class Fason(db.Model):
-    __tablename__ = 'fason'
-    id = db.Column(db.INTEGER, primary_key=True)
-    name = db.Column(db.String(45), unique=True)
-    category_id = db.Column(db.INTEGER, db.ForeignKey('category.id'))
-    brands = relationship('Brand', backref='fason', lazy='dynamic')
-
-class Brand(db.Model):
-    __tablename__ = 'brand'
-    id = db.Column(db.INTEGER, primary_key=True)
-    name = db.Column(db.String(45), unique=True)
-    fason_id = db.Column(db.INTEGER, db.ForeignKey('fason.id'))
-    model_numbers = relationship('Model_number', backref='brand', lazy='dynamic')
-
-class Model_number(db.Model):
-    __tablename__ = 'model_number'
-    id = db.Column(db.INTEGER, primary_key=True)
-    name = db.Column(db.String(45),unique=True)
-    brand_id = db.Column(db.INTEGER,db.ForeignKey('brand.id'))
 
 class Application_receipt(db.Model):
     __tablename__ = 'application_receipt'
@@ -74,8 +57,12 @@ class Application_receipt(db.Model):
         self.provider = provider
 
 
+if __name__ == '__main__':
+    manager.run()
 
-db.create_all()
+
+#db.create_all()
+
 
 
 

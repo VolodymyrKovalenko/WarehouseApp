@@ -6,7 +6,7 @@ from sqlalchemy.sql import select
 
 
 from forms import LoginForm, RegisterForm, ReceiptForm
-from warehouseDB_ORM import User,Category,Fason,Brand,Model_number, Application_receipt
+from warehouseDB_ORM import User,Application_receipt
 from arrow import now
 
 app = Flask(__name__)
