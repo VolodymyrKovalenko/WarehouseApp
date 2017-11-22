@@ -22,4 +22,5 @@ class ReceiptForm(Form):
     brand = StringField('Brand',[validators.Length(min=2, max=50)])
     model = StringField('Model',[validators.Length(min=2, max=50)])
     quantity = IntegerField('Quantity')
-    date_issue = DateField('Data')
+    data_adoption = DateField('Data adoption')
+    date_issue = DateField('Data isuue')

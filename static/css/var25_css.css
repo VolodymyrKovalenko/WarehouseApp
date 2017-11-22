@@ -152,7 +152,7 @@ body{
 	background-color: rgb(0, 91, 171);
 }
 .mainList tr:hover{
-	background-color: gray;
+	background-color: #6b6b6b;
 }
 .mainList td{
 	padding: 7px 1px;

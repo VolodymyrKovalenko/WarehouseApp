@@ -34,28 +34,42 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
-class Application_receipt(db.Model):
-    __tablename__ = 'application_receipt'
+class Complect(db.Model):
+    __tablename__ = 'complect'
     id = db.Column(db.INTEGER, primary_key=True)
     category = db.Column(db.String(45))
     fason = db.Column(db.String(45))
     brand = db.Column(db.String(45))
     model = db.Column(db.String(45))
-    quantity = db.Column(db.INTEGER)
-    date_adoption = db.Column(db.Date)
-    date_issue = db.Column(db.Date)
-    provider = db.Column(db.String(45))
+    applications_receipt = db.relationship('Application_receipt', backref='applic', lazy='dynamic')
 
-    def __init__(self, category, fason, brand,model,quantity,date_adoption,date_issue, provider):
+    def __init__(self,category,fason,brand,model):
         self.category = category
         self.fason = fason
         self.brand = brand
         self.model = model
-        self.quantity = quantity
-        self.date_issue = date_issue
-        self.date_adoption = date_adoption
-        self.provider = provider
 
+class Application_receipt(db.Model):
+    __tablename__ = 'application_receipt'
+    id = db.Column(db.INTEGER, primary_key=True)
+    complect_id = db.Column(db.INTEGER, db.ForeignKey('complect.id'))
+    quantity = db.Column(db.INTEGER)
+    date_adoption = db.Column(db.Date)
+    date_issue = db.Column(db.Date)
+    provider_id = db.Column(db.INTEGER)
+
+    def __init__(self,complect_id, quantity,date_adoption,date_issue, provider_id):
+        self.complect_id = complect_id
+        self.quantity = quantity
+        self.date_adoption = date_adoption
+        self.date_issue = date_issue
+        self.provider_id = provider_id
+
+class Sklad(db.Model):
+    __tablename__ = 'sklad'
+    id = db.Column(db.INTEGER, primary_key = True)
+    application_id = db.Column(db.INTEGER)
+    price = db.Column(db.INTEGER)
 
 if __name__ == '__main__':
     manager.run()

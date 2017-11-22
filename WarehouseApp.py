@@ -6,7 +6,7 @@ from sqlalchemy.sql import select
 
 
 from forms import LoginForm, RegisterForm, ReceiptForm
-from warehouseDB_ORM import User,Application_receipt
+from warehouseDB_ORM import User,Application_receipt, Complect
 from arrow import now
 
 app = Flask(__name__)
@@ -43,6 +43,8 @@ def login():
         session['curent_user'] = user.login
 
         if sha256_crypt.verify(password_form_candidate,user.password):
+            if user.login == 'admin88':
+                return redirect(url_for('admin_page'))
             return redirect(url_for('main_page'))
     return render_template('singIn.html')
 
@@ -54,36 +56,64 @@ def start_page():
 
 @app.route('/main',methods=['GET','POST'])
 def main_page():
-    sesion_message = session['curent_user']  # counterpart for session
-    # products = Application_receipt.query.all()
     conn = db.engine.connect()
-    s = select([Application_receipt]).where(Application_receipt.provider == sesion_message)
-    products = conn.execute(s)
+
+    sesion_user_login = session['curent_user']  # counterpart for session
+
+    sel_user_id = select([User.id]).where(User.login == sesion_user_login)
+    user_id_result = conn.execute(sel_user_id)
+    user_id_row_result = user_id_result.fetchone()
+
+    select_app_application = select([Application_receipt]).where(Application_receipt.provider_id == user_id_row_result[0])
+    select_app_complect = select([Complect]).where(Complect.id == Application_receipt.complect_id)
+    products = conn.execute(select_app_application)
+    conn.close()
 
 
-    return render_template('mainPage.html',curent_user=sesion_message,allApp=products)
+    return render_template('mainPage.html',curent_user=sesion_user_login,allApp=products)
 
 
 @app.route('/receipt',methods=['GET','POST'])
 def receipt_application():
     form = ReceiptForm(request.form)
+    conn = db.engine.connect()
     if request.method == 'POST' and form.validate():
         category = form.category.data
         fason = form.fason.data
         brand = form.brand.data
         model = form.model.data
-        quantity = form.quantity.data
-        date_issue = form.date_issue.data
-        provider = session['curent_user']
-        date_adoption = now().format('YYYY-MM-DD')
 
-        receipt_app = Application_receipt(category, fason, brand, model,quantity,date_adoption,date_issue,provider)
+        quantity = form.quantity.data
+        date_adoption = form.data_adoption.data
+        date_issue = form.date_issue.data
+
+        session_user_login = session['curent_user']
+        provider_id_select = select([User.id]).where(User.login == session_user_login)
+        provider_id = conn.execute(provider_id_select)
+        #date_adoption = now().format('YYYY-MM-DD')
+        complect_receipt_app = Complect(category, fason, brand, model)
+        db.session.add(complect_receipt_app)
+        db.session.commit()
+        complect_id_select = select([Complect.id])
+        complect_id_select_res = conn.execute(complect_id_select)
+        complect_id = complect_id_select_res.fetchone()
+
+        complect_id = complect_id[-1]
+
+
+        receipt_app = Application_receipt(complect_id,quantity,date_adoption,date_issue,provider_id)
         db.session.add(receipt_app)
         db.session.commit()
+        conn.close()
 
         return redirect(url_for('main_page'))
 
     return render_template('applicationForReceipt.html')
+
+#@app.route('/admin',methods=['GET','POST'])
+#def admin_page():
+
+
 
 
 if __name__ == '__main__':
