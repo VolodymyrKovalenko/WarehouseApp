@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import sha256_crypt
 from sqlalchemy.orm import query
 from sqlalchemy.sql import select
+import time
 
 
 from forms import LoginForm, RegisterForm, ReceiptForm
@@ -60,17 +61,13 @@ def main_page():
 
     sesion_user_login = session['curent_user']  # counterpart for session
 
-    sel_user_id = select([User.id]).where(User.login == sesion_user_login)
-    user_id_result = conn.execute(sel_user_id)
-    user_id_row_result = user_id_result.fetchone()
+    join_table = conn.execute("""SELECT category, fason,brand,model,quantity,date_adoption,date_issue FROM application_receipt
+                JOIN complect on application_receipt.complect_id = complect.id;""")
 
-    select_app_application = select([Application_receipt]).where(Application_receipt.provider_id == user_id_row_result[0])
-    select_app_complect = select([Complect]).where(Complect.id == Application_receipt.complect_id)
-    products = conn.execute(select_app_application)
     conn.close()
 
 
-    return render_template('mainPage.html',curent_user=sesion_user_login,allApp=products)
+    return render_template('mainPage.html',curent_user=sesion_user_login,first_table_result =  join_table)
 
 
 @app.route('/receipt',methods=['GET','POST'])
@@ -84,21 +81,28 @@ def receipt_application():
         model = form.model.data
 
         quantity = form.quantity.data
-        date_adoption = form.data_adoption.data
+        date_adoption = form.date_adoption.data
         date_issue = form.date_issue.data
 
         session_user_login = session['curent_user']
-        provider_id_select = select([User.id]).where(User.login == session_user_login)
-        provider_id = conn.execute(provider_id_select)
+
+        provider_id = User.query.filter_by(login=session_user_login).first().id
+
+
+        # provider_id = select([User.id]).where(User.login == session_user_login)
+        # provider_id = conn.execute(provider_id)
+        # provider_id = provider_id.fetchone()[0]
+        # print(provider_id)
+
         #date_adoption = now().format('YYYY-MM-DD')
         complect_receipt_app = Complect(category, fason, brand, model)
         db.session.add(complect_receipt_app)
         db.session.commit()
-        complect_id_select = select([Complect.id])
-        complect_id_select_res = conn.execute(complect_id_select)
-        complect_id = complect_id_select_res.fetchone()
 
-        complect_id = complect_id[-1]
+        complect_id = conn.execute('select id from complect order by id desc limit 1')
+        complect_id = complect_id.fetchone()
+        complect_id = complect_id[0]
+        #complect_id +=1
 
 
         receipt_app = Application_receipt(complect_id,quantity,date_adoption,date_issue,provider_id)

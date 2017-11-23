@@ -51,16 +51,15 @@
 
 					</thead>
 					<tbody class="mainList">
-                    {% for product in allApp %}
-						<tr>
-							<td>{{ product.category }}</td>
-							<td>{{ product.fason }}</td>
-							<td>{{ product.brand }}</td>
-							<td>{{ product.model }}</td>
-                            <td>{{ product.quantity }}</td>
-                            <td>{{ product.date_adoption }}</td>
-                            <td>{{ product.date_issue }}</td>
-
+                    {% for complect1 in first_table_result %}
+                        <tr>
+                            <td>{{ complect1.category }}</td>
+							<td>{{ complect1.fason }}</td>
+							<td>{{ complect1.brand }}</td>
+							<td>{{ complect1.model }}</td>
+                            <td>{{ complect1.quantity }}</td>
+                            <td>{{ complect1.date_adoption }}</td>
+                            <td>{{ complect1.date_issue }}</td>
 						</tr>
                     {% endfor %}
 					</tbody>
