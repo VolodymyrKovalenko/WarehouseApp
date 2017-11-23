@@ -13,7 +13,7 @@
 		<div class="row">
 			<div class="col-3">
 				<div class="userData">
-					<p class="login">ONLINE</p>
+					<p class="login">ONLINE(XYILINE)</p>
 					<p class="firm">{{ curent_user }}</p>
                     <a href="/" name="logOut" class="logOut" >LogOut</a>
 				</div>
@@ -23,8 +23,8 @@
 			<div class="col-3">
 				<div class="userMenu">
 					<a href="/receipt">+ Add application</a>
-					<a href="#">+ Show all applicatons</a>
-					<a href="#">+ Show my category</a>
+					<a id="currentApp" href="#">+ Show current applications</a>
+					<a id="filledInApp" href="#">+ Show filled in applications</a>
 				</div>
 			</div>
 		</div>
@@ -41,13 +41,13 @@
 			<div class="col-10 offset-2">
 				<table class="mainTable">
 					<thead class="mainMenu">
-						<th>Category</th>
-						<th>Type (Fason)</th>
-						<th>Manufacturer (Brand)</th>
-						<th>Model number</th>
-                        <th>Quantity</th>
-                        <th>Date adoption</th>
-                        <th>Date issue</th>
+						<th data-type="string">Category</th>
+						<th data-type="string">Type (Fason)</th>
+						<th data-type="string">Manufacturer (Brand)</th>
+						<th data-type="number">Model number</th>
+                        <th data-type="number">Quantity</th>
+                        <th data-type="number">Date adoption</th>
+                        <th data-type="number">Date issue</th>
 
 					</thead>
 					<tbody class="mainList">
@@ -80,5 +80,6 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="../static/js/main.js"></script>
 </body>
 </html>

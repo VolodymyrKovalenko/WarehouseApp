@@ -138,12 +138,13 @@ body{
 .mainTable{
 	width: 100%;
 	text-align: center;
-
 	border: 1px solid rgb(123, 251, 69);
 	border-collapse: collapse;
 	color: #ffffff;
+	table-layout: fixed;
 }
 .mainMenu th{
+	
 	padding: 7px 1px;
 	color: rgb(238, 234, 255);
 	font-weight: bold;
