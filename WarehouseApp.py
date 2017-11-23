@@ -59,10 +59,18 @@ def start_page():
 def main_page():
     conn = db.engine.connect()
 
-    sesion_user_login = session['curent_user']  # counterpart for session
+    sesion_user_login = session['curent_user']# counterpart for session
+    curent_id = User.query.filter(User.login == sesion_user_login )
+    curent_id = curent_id[0].id
 
-    join_table = conn.execute("""SELECT category, fason,brand,model,quantity,date_adoption,date_issue FROM application_receipt
-                JOIN complect on application_receipt.complect_id = complect.id;""")
+
+    # join_table = conn.execute("""SELECT category, fason,brand,model,quantity,date_adoption,date_issue FROM application_receipt
+    #             JOIN complect on application_receipt.complect_id = complect.id""")
+    join_table = db.session\
+        .query(Application_receipt, Complect)\
+        .join(Complect)\
+        .filter(Application_receipt.provider_id == curent_id)
+
 
     conn.close()
 
