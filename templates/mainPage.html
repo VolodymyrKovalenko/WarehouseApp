@@ -13,7 +13,7 @@
 		<div class="row">
 			<div class="col-3">
 				<div class="userData">
-					<p class="login">ONLINE(XYILINE)</p>
+					<p class="login">ONLINE</p>
 					<p class="firm">{{ curent_user }}</p>
                     <a href="/" name="logOut" class="logOut" >LogOut</a>
 				</div>
@@ -23,7 +23,7 @@
 			<div class="col-3">
 				<div class="userMenu">
 					<a href="/receipt">+ Add application</a>
-					<a id="currentApp" href="#">+ Show current applications</a>
+					<a id="currentApp" href="#">+ Show accepted applications</a>
 					<a id="filledInApp" href="#">+ Show filled in applications</a>
 				</div>
 			</div>
@@ -44,7 +44,7 @@
 						<th data-type="string">Category</th>
 						<th data-type="string">Type (Fason)</th>
 						<th data-type="string">Manufacturer (Brand)</th>
-						<th data-type="number">Model number</th>
+						<th data-type="string">Model number</th>
                         <th data-type="number">Quantity</th>
                         <th data-type="number">Date adoption</th>
                         <th data-type="number">Date issue</th>
@@ -53,7 +53,7 @@
 					<tbody class="mainList">
                     {% for product in first_table_result %}
                         <tr>
-                            <td>{{ product[1].category }}</td>
+                            <td>{{ product[1].category}}</td>
 							<td>{{ product[1].fason }}</td>
 							<td>{{ product[1].brand }}</td>
 							<td>{{ product[1].model }}</td>

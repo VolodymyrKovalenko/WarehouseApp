@@ -71,17 +71,17 @@ filledInApp.onclick = function(){
         <th data-type="number">Date adoption</th>
         <th data-type="number">Date issue</th>`;
 	mainTable.tBodies[0].innerHTML = `
-	    {% for complect1 in first_table_result %}
-            <tr>
-                <td>{{ complect1.category }}</td>
-				<td>{{ complect1.fason }}</td>
-				<td>{{ complect1.brand }}</td>
-				<td>{{ complect1.model }}</td>
-                <td>{{ complect1.quantity }}</td>
-                <td>{{ complect1.date_adoption }}</td>
-                <td>{{ complect1.date_issue }}</td>
-			</tr>
-        {% endfor %}`
+	    {% for product in first_table_result %}
+                        <tr>
+                            <td>{{ product[1].category}}</td>
+							<td>{{ product[1].fason }}</td>
+							<td>{{ product[1].brand }}</td>
+							<td>{{ product[1].model }}</td>
+                            <td>{{ product[0].quantity }}</td>
+                            <td>{{ product[0].date_adoption }}</td>
+                            <td>{{ product[0].date_issue }}</td>
+						</tr>
+                    {% endfor %}
 	}
 }
 if(mainTable){

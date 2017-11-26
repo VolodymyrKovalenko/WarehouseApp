@@ -49,6 +49,30 @@ class Complect(db.Model):
         self.brand = brand
         self.model = model
 
+class Category(db.Model):
+    __tablename__ = 'category'
+    id = db.Column(db.INTEGER, primary_key=True)
+    name = db.Column(db.String(45), unique=True)
+    price = db.Column(db.INTEGER)
+    fasons = db.relationship('Fason', backref='fason', lazy='dynamic')
+
+    def __init__(self,name,price):
+        self.name = name
+        self.price = price
+
+class Fason(db.Model):
+    __tablename__= 'fason'
+    id = db.Column(db.INTEGER, primary_key=True)
+    name = db.Column(db.String(45))
+    category_id = db.Column(db.INTEGER, db.ForeignKey('category.id'))
+
+    def __init__(self,name,category_id):
+        self.name = name
+        self.category_id = category_id
+
+
+
+
 class Application_receipt(db.Model):
     __tablename__ = 'application_receipt'
     id = db.Column(db.INTEGER, primary_key=True)
@@ -57,19 +81,23 @@ class Application_receipt(db.Model):
     date_adoption = db.Column(db.Date)
     date_issue = db.Column(db.Date)
     provider_id = db.Column(db.INTEGER)
+    confirmed = db.Column(db.BOOLEAN, default=False)
 
-    def __init__(self,complect_id, quantity,date_adoption,date_issue, provider_id):
+    def __init__(self,complect_id, quantity,date_adoption,date_issue, provider_id,confirmed):
         self.complect_id = complect_id
         self.quantity = quantity
         self.date_adoption = date_adoption
         self.date_issue = date_issue
         self.provider_id = provider_id
+        self.confirmed = confirmed
 
 class Sklad(db.Model):
     __tablename__ = 'sklad'
     id = db.Column(db.INTEGER, primary_key = True)
     application_id = db.Column(db.INTEGER)
-    price = db.Column(db.INTEGER)
+    amount_days = db.Column(db.INTEGER)
+    overall_price = db.Column(db.INTEGER)
+    issued = db.Column(db.BOOLEAN, default=False)
 
 if __name__ == '__main__':
     manager.run()
