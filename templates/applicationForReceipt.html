@@ -20,8 +20,27 @@
 
 					<form id="receiptForm" method="post" action="">
                             <!-- форма -->
-                        <input type="text" name="category" placeholder="Category" value="{{request.form.category}}">
-                        <input type="text" name="fason" placeholder="Fason" value="{{request.form.fason}}">
+                        <div class="dropdown show formDropDown">
+							<a class="btn  dropdown-toggle formDropDownButton" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Category
+							</a>
+							<div class="dropdown-menu formDropDownMenu" aria-labelledby="dropdownMenuLink">
+								<a class="dropdown-item" href="#">c1</a>
+								<a class="dropdown-item" href="#">c2</a>
+								<a class="dropdown-item" href="#">c3</a>
+							</div>
+						</div>
+                        <div class="dropdown show formDropDown ">
+							<a class="btn  dropdown-toggle formDropDownButton" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Fashion
+							</a>
+							<div class="dropdown-menu formDropDownMenu" aria-labelledby="dropdownMenuLink">
+								<a class="dropdown-item" href="#">f1</a>
+								<a class="dropdown-item" href="#">f2</a>
+								<a class="dropdown-item" href="#">f3</a>
+							</div>
+						</div>
+
                         <input type="text" name="brand" placeholder="Brand" value="{{request.form.brand}}">
                         <input type="text" name="model" placeholder="Model number" value="{{request.form.model}}">
                         <input id="amount" type="number" name="quantity" placeholder="Quantity" value="{{request.form.quantity}}" min=0 ><!-- id не міняти -->
@@ -38,6 +57,9 @@
 			</div>
 		</div>
 	</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 <script type="text/javascript" src="../static/js/main.js"></script>
 </body>
 </html>
