@@ -7,7 +7,7 @@ import time
 
 
 from forms import LoginForm, RegisterForm, ReceiptForm
-from warehouseDB_ORM import User,Application_receipt, Complect
+from warehouseDB_ORM import User,Application_receipt, Complect, Category, Fason, Brand, Model
 from arrow import now
 
 app = Flask(__name__)
@@ -77,12 +77,18 @@ def main_page():
     return render_template('mainPage.html',curent_user=sesion_user_login,first_table_result =  join_table)
 
 
+
+
 @app.route('/receipt',methods=['GET','POST'])
 def receipt_application():
     form = ReceiptForm(request.form)
     conn = db.engine.connect()
+    category = form.category_opt.data
+    fason = form.fason_opt.data
+
     if request.method == 'POST' and form.validate():
-        category = form.category.data
+
+        price = form.price.data
         fason = form.fason.data
         brand = form.brand.data
         model = form.model.data
@@ -95,31 +101,31 @@ def receipt_application():
 
         provider_id = User.query.filter_by(login=session_user_login).first().id
 
-
-        # provider_id = select([User.id]).where(User.login == session_user_login)
-        # provider_id = conn.execute(provider_id)
-        # provider_id = provider_id.fetchone()[0]
-        # print(provider_id)
-
         #date_adoption = now().format('YYYY-MM-DD')
-        complect_receipt_app = Complect(category, fason, brand, model)
-        db.session.add(complect_receipt_app)
-        db.session.commit()
+        category_receipt_app = Category(category,price)
+        #db.session.add(category_receipt_app)
+        #db.session.commit()
+
+        #fason_receipt_app == Fason(fason,)
+
+        #curent_id = User.query.filter(User.login == sesion_user_login).first()
+        #curent_id = curent_id.id
 
         complect_id = conn.execute('select id from complect order by id desc limit 1')
         complect_id = complect_id.fetchone()
         complect_id = complect_id[0]
         #complect_id +=1
+        confirmed = True
 
 
-        receipt_app = Application_receipt(complect_id,quantity,date_adoption,date_issue,provider_id)
+        receipt_app = Application_receipt(complect_id,quantity,date_adoption,date_issue,provider_id,confirmed)
         db.session.add(receipt_app)
         db.session.commit()
         conn.close()
 
         return redirect(url_for('main_page'))
 
-    return render_template('applicationForReceipt.html')
+    return render_template('applicationForReceipt.html', form = form)
 
 #@app.route('/admin',methods=['GET','POST'])
 #def admin_page():

@@ -37,17 +37,15 @@ class User(db.Model):
 class Complect(db.Model):
     __tablename__ = 'complect'
     id = db.Column(db.INTEGER, primary_key=True)
-    category = db.Column(db.String(45))
-    fason = db.Column(db.String(45))
-    brand = db.Column(db.String(45))
-    model = db.Column(db.String(45))
     applications_receipt = db.relationship('Application_receipt', backref='applic', lazy='dynamic')
+    categories_id = db.Column(db.INTEGER, db.ForeignKey('category.id'))
+    brands_id = db.Column(db.INTEGER,db.ForeignKey('brand.id'))
+    models_id = db.Column(db.INTEGER, db.ForeignKey('model.id'))
 
-    def __init__(self,category,fason,brand,model):
-        self.category = category
-        self.fason = fason
-        self.brand = brand
-        self.model = model
+    def __init__(self,categories_id,brands_id,models_id):
+        self.categories_id = categories_id
+        self.brands_id = brands_id
+        self.models_id = models_id
 
 class Category(db.Model):
     __tablename__ = 'category'
@@ -55,6 +53,7 @@ class Category(db.Model):
     name = db.Column(db.String(45), unique=True)
     price = db.Column(db.INTEGER)
     fasons = db.relationship('Fason', backref='fason', lazy='dynamic')
+    complects = db.relationship('Complect', backref='complect1', lazy='dynamic')
 
     def __init__(self,name,price):
         self.name = name
@@ -64,11 +63,29 @@ class Fason(db.Model):
     __tablename__= 'fason'
     id = db.Column(db.INTEGER, primary_key=True)
     name = db.Column(db.String(45))
-    category_id = db.Column(db.INTEGER, db.ForeignKey('category.id'))
+    categories_id = db.Column(db.INTEGER, db.ForeignKey('category.id'))
 
     def __init__(self,name,category_id):
         self.name = name
         self.category_id = category_id
+
+class Brand(db.Model):
+    __tablename__ = 'brand'
+    id = db.Column(db.INTEGER, primary_key=True)
+    name = db.Column(db.String(45))
+    complects = db.relationship('Complect', backref='complect2', lazy='dynamic')
+
+    def __init__(self,name):
+        self.name = name
+
+class Model(db.Model):
+    __tablename__ = 'model'
+    id = db.Column(db.INTEGER, primary_key=True)
+    name = db.Column(db.String(45))
+    complects = db.relationship('Complect', backref='complect3', lazy='dynamic')
+
+    def __init__(self,name):
+        self.name = name
 
 
 
