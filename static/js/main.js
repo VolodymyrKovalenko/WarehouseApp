@@ -36,7 +36,17 @@ let mainTable = document.getElementsByClassName('mainTable')[0];
 if(currentApp && filledInApp){
 
 currentApp.onclick = function(){
-	
+
+	for (let i = 0; i < mainTable.parentNode.childNodes.length; i++) {
+
+      // отфильтровать не-элементы
+      if (mainTable.parentNode.childNodes[i].nodeType != 3) continue;
+       mainTable.parentNode.childNodes[i].remove();
+
+    }
+
+	mainTable.insertAdjacentHTML('beforeBegin',`{% for sklad in NNNN_table_result %}`);
+	mainTable.insertAdjacentHTML('afterEnd',`{% endfor %}`);
 	mainTable.tHead.rows[0].innerHTML = `
 		<th data-type="string">Category</th>
 		<th data-type="string">Type (Fason)</th>
@@ -46,8 +56,7 @@ currentApp.onclick = function(){
         <th data-type="number">Date adoption</th>
         <th data-type="number">Date issue</th>
         <th data-type="number">Price</th>`;
-	mainTable.tBodies[0].innerHTML = `
-	{% for sklad in NNNN_table_result %}
+	mainTable.tBodies[0].innerHTML = `	
         <tr>
 		    <td>{{ sklad.category }}</td>
 			<td>{{ sklad.fason }}</td>
@@ -57,11 +66,18 @@ currentApp.onclick = function(){
 		    <td>{{ sklad.date_adoption }}</td>
 		    <td>{{ sklad.date_issue }}</td>
 		    <td>{{ sklad.price }}</td>
-		</tr>
-    {% endfor %}`
+		</tr>`
 }
 filledInApp.onclick = function(){
-	
+	for (let i = 0; i < mainTable.parentNode.childNodes.length; i++) {
+
+      // отфильтровать не-элементы
+      if (mainTable.parentNode.childNodes[i].nodeType != 3) continue;
+       mainTable.parentNode.childNodes[i].remove();
+
+    }
+	mainTable.insertAdjacentHTML('beforeBegin',`{% for product in first_table_result %}`);
+	mainTable.insertAdjacentHTML('afterEnd',`{% endfor %}`);
 	mainTable.tHead.rows[0].innerHTML = `
 		<th data-type="string">Category</th>
 		<th data-type="string">Type (Fason)</th>
@@ -70,18 +86,16 @@ filledInApp.onclick = function(){
         <th data-type="number">Quantity</th>
         <th data-type="number">Date adoption</th>
         <th data-type="number">Date issue</th>`;
-	mainTable.tBodies[0].innerHTML = `
-	    {% for product in first_table_result %}
-                        <tr>
-                            <td>{{ product[1].category}}</td>
-							<td>{{ product[1].fason }}</td>
-							<td>{{ product[1].brand }}</td>
-							<td>{{ product[1].model }}</td>
-                            <td>{{ product[0].quantity }}</td>
-                            <td>{{ product[0].date_adoption }}</td>
-                            <td>{{ product[0].date_issue }}</td>
-						</tr>
-                    {% endfor %}
+	mainTable.tBodies[0].innerHTML = `	    
+        <tr>
+            <td>{{ product[1].category}}</td>
+			<td>{{ product[1].fason }}</td>
+			<td>{{ product[1].brand }}</td>
+			<td>{{ product[1].model }}</td>
+            <td>{{ product[0].quantity }}</td>
+            <td>{{ product[0].date_adoption }}</td>
+            <td>{{ product[0].date_issue }}</td>
+		</tr>`
 	}
 }
 if(mainTable){
