@@ -7,8 +7,11 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="../static/css/var25_css.css"> <!-- підключи js нормально -->
+
 </head>
 <body>
+
+
 	<div class="container">
 		<div class="row">
 			<div class="col-10 offset-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
@@ -19,32 +22,44 @@
 					</div>
 
 					<form id="receiptForm" method="post" action="">
-                            <!-- форма -->
-{#                        <div class="dropdown show formDropDown">#}
-{#							<a class="btn  dropdown-toggle formDropDownButton" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#							Category#}
-{#							</a>#}
-{#							<div class="dropdown-menu formDropDownMenu" aria-labelledby="dropdownMenuLink">#}
-{#								<a class="dropdown-item" href="#">c1</a>#}
-{#								<a class="dropdown-item" href="#">c2</a>#}
-{#								<a class="dropdown-item" href="#">c3</a>#}
-{#							</div>#}
-{#						</div>#}
-{#                        <div class="dropdown show formDropDown ">#}
-{#							<a class="btn  dropdown-toggle formDropDownButton" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#							Fashion#}
-{#							</a>#}
-{#							<div class="dropdown-menu formDropDownMenu" aria-labelledby="dropdownMenuLink">#}
-{#								<a class="dropdown-item" href="#">f1</a>#}
-{#								<a class="dropdown-item" href="#">f2</a>#}
-{#								<a class="dropdown-item" href="#">f3</a>#}
-{#							</div>#}
-{#						</div>#}
+
+                        <select name="categor" action="" id="category">
+
+                            {% for categor in categoty_html %}
+                            <option value="{{ categor.id }}" SELECTED>{{ categor.name }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <select name="fas" action="" id ="selectFason">
+
+                        </select>
+                    <script>
+                                var categoryId = 1;
+
+                                category.onclick = function(event){
+                                    if(event.target.tagName != 'OPTION') return;
+                                    categoryId = event.target.value;
+
+                                    let lenght = selectFason.children.length;
+                                    for(let i = 0; i < lenght; i++){
+                                        selectFason.children[i].remove();
+                                    }
+                                    {% for fas in fason_html %}
+
+                                if ('{{fas.categories_id}}' == categoryId){
+
+                                    let opt = document.createElement('option');
+                                    opt.innerHTML = '{{fas.name}}';
+                                    opt.value = '{{fas.name}}';
+                                    selectFason.append(opt);
+
+                                }
+                                {% endfor %}
+                                }
+                            </script>
 
 
-                        <div class="dropdown show formDropDown">{{form.category_opt}}</div>
-                        <div class="dropdown show formDropDown">{{form.fason_opt}}</div>
-                        <input type="text" name="brand" placeholder="Brand" value="{{request.form.brand}}">
+                        <input type="text" name="brand" placeholder="Brand" value="{{ request.form.brand }}">
                         <input type="text" name="model" placeholder="Model number" value="{{request.form.model}}">
                         <input id="amount" type="number" name="quantity" placeholder="Quantity" value="{{request.form.quantity}}" min=0 ><!-- id не міняти -->
                         <input type="text" name="date_adoption" placeholder="Date of adoption" value="{{request.form.date_adoption}}" onfocus="(this.type='date')">
@@ -60,5 +75,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 <script type="text/javascript" src="../static/js/main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="../static/js/category_ajax.js"></script>
+
 </body>
 </html>
