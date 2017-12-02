@@ -77,59 +77,46 @@ def main_page():
 
 @app.route('/receipt',methods=['GET','POST'])
 def receipt_application():
-    print('work_receipt')
     form = ReceiptForm(request.form)
     conn = db.engine.connect()
     session_user_login = session['curent_user']
 
     categories_names = db.session.query(Category)
-
     fason_names = db.session.query(Fason)
-
-
 
     if request.method == 'POST' and form.validate():
 
-        category_name = form.category_opt.data
-        category_price = form.price.data
-
-        fason_name = form.fason_opt.data
-        fason_category_id = None
-
-        complect_category_id = None
-        complect_brand_id = None
-        complect_model_id = None
+        id_category = request.form['categor']
+        name_fason = request.form['fas']
 
         brand_name = form.brand.data
         model_name = form.model.data
 
+        brand_app = Brand(brand_name)
+        model_app = Model(model_name)
+        db.session.add(brand_app)
+        db.session.add(model_app)
+        db.session.commit()
+
+        complect_fason_id = db.session.query(Fason.id).filter_by(name=name_fason)
+        complect_brand_id = db.session.query(Brand.id).filter_by(name = brand_name)
+        complect_model_id = db.session.query(Model.id).filter_by(name = model_name)
+
+        complect_app = Complect(complect_fason_id, complect_brand_id, complect_model_id)
+        db.session.add(complect_app)
+        db.session.commit()
+
+        app_complect_id = conn.execute('select id from complect order by id desc limit 1')
+        app_complect_id = app_complect_id.fetchone()
+        app_complect_id = app_complect_id[0]
         app_quantity = form.quantity.data
         app_date_adoption = form.date_adoption.data
         app_date_issue = form.date_issue.data
-        app_confirmed = False
         app_provider_id = User.query.filter_by(login=session_user_login).first().id
+        app_confirmed = False
 
         #date_adoption = now().format('YYYY-MM-DD')
-
-        #category_receipt_app = Category(category_name,category_price)
-        #fason_app = Fason(fason_name,fason_category_id)
-        complect_app = Complect(complect_category_id,complect_brand_id,complect_model_id)
-        brand_app = Brand(brand_name)
-        model_app = Model(model_name)
-
-        #db.session.add(category_receipt_app)
-        #db.session.add(fason_app)
-        db.session.add(complect_app)
-        db.session.add(brand_app,model_app)
-        db.session.commit()
-
-
-        complect_id = conn.execute('select id from complect order by id desc limit 1')
-        complect_id = complect_id.fetchone()
-        complect_id = complect_id[0]
-
-
-        receipt_app = Application_receipt(complect_id,app_quantity,app_date_adoption,app_date_issue,app_provider_id,app_confirmed)
+        receipt_app = Application_receipt(app_complect_id,app_quantity,app_date_adoption,app_date_issue,app_provider_id,app_confirmed)
         db.session.add(receipt_app)
         db.session.commit()
         conn.close()
@@ -140,29 +127,8 @@ def receipt_application():
 
 @app.route('/handler1',methods=['POST'])
 def AjaxCategory():
-    category = request.form['categor']
-    session['curent_category'] = category
-    print('my category is:',category)
-    return json.dumps({'status': 'OK','brand': category})
-
-
-
-
-
-
-# @app.route('/Test1')
-# def signUp():
-#     return render_template('Test1.html'), jsonify({'key':'it work'})
-#
-# @app.route('/AloUser', methods=['POST'])
-# def Obrabotka():
-#     print('work1')
-#     user =  request.form['username']
-#     password = request.form['password']
-#     print(user)
-#     return json.dumps({'status':'OK','user':user,'pass':password})
-
-
+    id_category = request.form['categor']
+    return json.dumps({'status': 'OK','brand': id_category})
 
 if __name__ == '__main__':
     app.secret_key='secret123'

@@ -38,7 +38,7 @@ class Complect(db.Model):
     __tablename__ = 'complect'
     id = db.Column(db.INTEGER, primary_key=True)
     applications_receipt = db.relationship('Application_receipt', backref='applic', lazy='dynamic')
-    categories_id = db.Column(db.INTEGER, db.ForeignKey('category.id'))
+    fason_id = db.Column(db.INTEGER, db.ForeignKey('fason.id'))
     brands_id = db.Column(db.INTEGER,db.ForeignKey('brand.id'))
     models_id = db.Column(db.INTEGER, db.ForeignKey('model.id'))
 
@@ -53,7 +53,7 @@ class Category(db.Model):
     name = db.Column(db.String(45), unique=True)
     price = db.Column(db.INTEGER)
     fasons = db.relationship('Fason', backref='fason', lazy='dynamic')
-    complects = db.relationship('Complect', backref='complect1', lazy='dynamic')
+
 
     def __init__(self,name,price):
         self.name = name
@@ -64,6 +64,7 @@ class Fason(db.Model):
     id = db.Column(db.INTEGER, primary_key=True)
     name = db.Column(db.String(45))
     categories_id = db.Column(db.INTEGER, db.ForeignKey('category.id'))
+    complects = db.relationship('Complect', backref='complect1', lazy='dynamic')
 
     def __init__(self,name,category_id):
         self.name = name
@@ -86,8 +87,6 @@ class Model(db.Model):
 
     def __init__(self,name):
         self.name = name
-
-
 
 
 class Application_receipt(db.Model):
