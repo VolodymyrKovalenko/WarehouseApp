@@ -42,8 +42,8 @@ class Complect(db.Model):
     brands_id = db.Column(db.INTEGER,db.ForeignKey('brand.id'))
     models_id = db.Column(db.INTEGER, db.ForeignKey('model.id'))
 
-    def __init__(self,categories_id,brands_id,models_id):
-        self.categories_id = categories_id
+    def __init__(self,fason_id,brands_id,models_id):
+        self.fason_id = fason_id
         self.brands_id = brands_id
         self.models_id = models_id
 
@@ -97,14 +97,16 @@ class Application_receipt(db.Model):
     date_adoption = db.Column(db.Date)
     date_issue = db.Column(db.Date)
     provider_id = db.Column(db.INTEGER)
+    price = db.Column(db.INTEGER)
     confirmed = db.Column(db.BOOLEAN, default=False)
 
-    def __init__(self,complect_id, quantity,date_adoption,date_issue, provider_id,confirmed):
+    def __init__(self,complect_id, quantity,date_adoption,date_issue, provider_id,price,confirmed):
         self.complect_id = complect_id
         self.quantity = quantity
         self.date_adoption = date_adoption
         self.date_issue = date_issue
         self.provider_id = provider_id
+        self.price = price
         self.confirmed = confirmed
 
 class Sklad(db.Model):

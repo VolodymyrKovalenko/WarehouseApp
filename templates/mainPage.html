@@ -48,18 +48,22 @@
                         <th data-type="number">Quantity</th>
                         <th data-type="number">Date adoption</th>
                         <th data-type="number">Date issue</th>
+                        <th data-type="number">Price</th>
+                        <th data-type="number">Confirmed app</th>
 
 					</thead>
 					<tbody class="mainList">
-                    {% for product in first_table_result %}
+                    {% for product in second_table %}
                         <tr>
-                            <td>{{ product[1].category}}</td>
-							<td>{{ product[1].fason }}</td>
-							<td>{{ product[1].brand }}</td>
-							<td>{{ product[1].model }}</td>
+                            <td>{{ product[5].name}}</td>
+							<td>{{ product[4].name }}</td>
+							<td>{{ product[2].name }}</td>
+							<td>{{ product[3].name }}</td>
                             <td>{{ product[0].quantity }}</td>
                             <td>{{ product[0].date_adoption }}</td>
                             <td>{{ product[0].date_issue }}</td>
+                            <td>{{ product[0].price }}</td>
+                            <td>{{ product[0].confirmed }}</td>
 						</tr>
                     {% endfor %}
 					</tbody>

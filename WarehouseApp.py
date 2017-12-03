@@ -63,14 +63,27 @@ def main_page():
     curent_id = User.query.filter(User.login == sesion_user_login).first()
     curent_id = curent_id.id
 
+
     join_table = db.session\
-        .query(Application_receipt, Complect)\
+        .query(Application_receipt,Complect,Brand,Model,Fason,Category)\
+        .filter(Application_receipt.provider_id == curent_id)\
         .join(Complect)\
-        .filter(Application_receipt.provider_id == curent_id)
+        .filter(Application_receipt.complect_id == Complect.id)\
+        .join(Brand)\
+        .filter(Complect.brands_id == Brand.id)\
+        .join(Model)\
+        .filter(Complect.models_id == Model.id)\
+        .join(Fason)\
+        .filter(Complect.fason_id == Fason.id) \
+        .join(Category) \
+        .filter(Fason.categories_id == Category.id)
+
 
     conn.close()
 
-    return render_template('mainPage.html',curent_user=sesion_user_login,first_table_result =  join_table)
+    return render_template('mainPage.html',curent_user=sesion_user_login
+                        ,second_table = join_table
+                           )
 
 
 
@@ -87,18 +100,21 @@ def receipt_application():
     if request.method == 'POST' and form.validate():
 
         id_category = request.form['categor']
+        category_price = Category.query.filter_by(id=id_category).first().price
         name_fason = request.form['fas']
+
 
         brand_name = form.brand.data
         model_name = form.model.data
-
-        brand_app = Brand(brand_name)
-        model_app = Model(model_name)
-        db.session.add(brand_app)
-        db.session.add(model_app)
+        if db.session.query(Brand.name).filter_by(name=brand_name).scalar() == None:
+            brand_app = Brand(brand_name)
+            db.session.add(brand_app)
+        if db.session.query(Model.name).filter_by(name=model_name).scalar() == None:
+            model_app = Model(model_name)
+            db.session.add(model_app)
         db.session.commit()
 
-        complect_fason_id = db.session.query(Fason.id).filter_by(name=name_fason)
+        complect_fason_id = db.session.query(Fason.id).filter_by(name = name_fason)
         complect_brand_id = db.session.query(Brand.id).filter_by(name = brand_name)
         complect_model_id = db.session.query(Model.id).filter_by(name = model_name)
 
@@ -113,10 +129,11 @@ def receipt_application():
         app_date_adoption = form.date_adoption.data
         app_date_issue = form.date_issue.data
         app_provider_id = User.query.filter_by(login=session_user_login).first().id
+        app_price = app_quantity * category_price
         app_confirmed = False
 
         #date_adoption = now().format('YYYY-MM-DD')
-        receipt_app = Application_receipt(app_complect_id,app_quantity,app_date_adoption,app_date_issue,app_provider_id,app_confirmed)
+        receipt_app = Application_receipt(app_complect_id,app_quantity,app_date_adoption,app_date_issue,app_provider_id,app_price,app_confirmed)
         db.session.add(receipt_app)
         db.session.commit()
         conn.close()
