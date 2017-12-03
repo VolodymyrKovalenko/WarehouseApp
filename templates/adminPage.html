@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Warehouse</title>
+	<title>Admin</title>
 	<link rel="stylesheet" type="text/css" href="../static/css/reset.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -22,7 +22,6 @@
 		<div class="row">
 			<div class="col-3">
 				<div class="userMenu">
-					<a href="/receipt">+ Add application</a>
 					<a id="acceptedApp" href="#">+ Show only accepted applications</a>
 					<a id="filledInApp" href="#">+ Show filled in applications</a>
 					<a id="allApp" href="#">+ Show all applications</a>
@@ -51,6 +50,7 @@
                         <th data-type="number">Date issue</th>
                         <th data-type="number">Price</th>
                         <th data-type="number">Confirmed app</th>
+                        <th>Management</th>
 					</thead>
 					<tbody class="mainList">
                     {% for product in second_table %}
@@ -64,6 +64,7 @@
                             <td>{{ product[0].date_issue }}</td>
                             <td>{{ product[0].price }}</td>
                             <td>{{ product[0].confirmed }}</td>
+                            <td><button class="acceptButton">Accept</button></td>
 						</tr>
                     {% endfor %}
 					</tbody>

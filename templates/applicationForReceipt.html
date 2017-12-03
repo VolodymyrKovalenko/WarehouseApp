@@ -17,47 +17,42 @@
 			<div class="col-10 offset-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
 				<div class="signIn">
 					<div class="signHead">
-						<a class="goToSingIn" href="applicationForReceipt.html">Receipt</a>
-						<a class="goToRegistration offFocus" href="applicationForIssuance.html">Issuance</a>
+						<a class="goToSingIn" href="applicationForReceipt.html" style="width: 100%">Receipt</a>
 					</div>
 
 					<form id="receiptForm" method="post" action="">
 
                         <select name="categor" action="" id="category">
-
                             {% for categor in categoty_html %}
                             <option value="{{ categor.id }}" SELECTED>{{ categor.name }}</option>
                             {% endfor %}
                         </select>
 
-                        <select name="fas" action="" id ="selectFason">
-
+                        <select name="fas" action="" id ="selectFason" hidden="true">
                         </select>
-                    <script>
-                                var categoryId = 1;
 
-                                category.onclick = function(event){
-                                    if(event.target.tagName != 'OPTION') return;
-                                    categoryId = event.target.value;
+                        <script>
+                            var categoryId = 1;
 
-                                    let lenght = selectFason.children.length;
-                                    for(let i = 0; i < lenght; i++){
-                                        selectFason.children[i].remove();
+                            category.onclick = function(event){
+                                if(event.target.tagName != 'OPTION') return;
+                                categoryId = event.target.value;
+
+                                let lenght = selectFason.children.length;
+                                for(let i = 0; i < lenght; i++){
+                                    selectFason.children[i].remove();
+                                }
+                                {% for fas in fason_html %}
+                                    if ('{{fas.categories_id}}' == categoryId){
+                                        let opt = document.createElement('option');
+                                        opt.innerHTML = '{{fas.name}}';
+                                        opt.value = '{{fas.name}}';
+                                        selectFason.append(opt);
                                     }
-                                    {% for fas in fason_html %}
-
-                                if ('{{fas.categories_id}}' == categoryId){
-
-                                    let opt = document.createElement('option');
-                                    opt.innerHTML = '{{fas.name}}';
-                                    opt.value = '{{fas.name}}';
-                                    selectFason.append(opt);
-
-                                }
                                 {% endfor %}
-                                }
-                            </script>
-
+                                selectFason.hidden = false;
+                            }
+                        </script>
 
                         <input type="text" name="brand" placeholder="Brand" value="{{ request.form.brand }}">
                         <input type="text" name="model" placeholder="Model number" value="{{request.form.model}}">

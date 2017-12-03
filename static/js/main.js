@@ -2,6 +2,11 @@
 
 let input = document.getElementById('amount');
 if(input){
+	if(category.value != parseInt(category.value)) var priceForUnit = 1
+	else priceForUnit = category.value;
+	
+	var priceForCategory = 12 + priceForUnit;
+
 	input.onfocus = function(){
 		let tooltip = document.createElement('div');
 		tooltip.classList.add('tooltip1');
@@ -15,7 +20,7 @@ if(input){
 	input.oninput = function(){	
 		let tooltip = document.querySelector('.tooltip1');
 		if(input.value > 0) {
-			tooltip.innerHTML = "Price:" + (input.value * 5) + ' UAH'; //мінять ціну тут			
+			tooltip.innerHTML = "Price for the unit: " + priceForCategory + "\nTotal price:" + (input.value * priceForCategory) + ' UAH'; //мінять ціну тут			
 		}
 		else {			
 			tooltip.innerHTML = "Uncorrect value";
@@ -29,75 +34,31 @@ if(input){
 
 // MAIN PAGE
 
-let currentApp = document.getElementById('currentApp');
+let acceptedApp = document.getElementById('acceptedApp');
 let filledInApp = document.getElementById('filledInApp');
 let mainTable = document.getElementsByClassName('mainTable')[0];
 
-if(currentApp && filledInApp){
+if(acceptedApp && filledInApp){
 
-currentApp.onclick = function(){
+	acceptedApp.onclick = function(){
+		for (let i = 0; i < mainTable.tbody.rows.length; i++) {
+			mainTable.tHead.rows[i].hidden = !mainTable.tHead.rows[i].cells[8];
+		}
+	}
 
-	for (let i = 0; i < mainTable.parentNode.childNodes.length; i++) {
+	filledInApp.onclick = function(){
+		for (let i = 0; i < mainTable.tbody.rows.length; i++) {
+			mainTable.tHead.rows[i].hidden = mainTable.tHead.rows[i].cells[8];
+		}
+	}
 
-      // отфильтровать не-элементы
-      if (mainTable.parentNode.childNodes[i].nodeType != 3) continue;
-       mainTable.parentNode.childNodes[i].remove();
-
-    }
-
-	mainTable.insertAdjacentHTML('beforeBegin',`{% for sklad in NNNN_table_result %}`);
-	mainTable.insertAdjacentHTML('afterEnd',`{% endfor %}`);
-	mainTable.tHead.rows[0].innerHTML = `
-		<th data-type="string">Category</th>
-		<th data-type="string">Type (Fason)</th>
-		<th data-type="string">Manufacturer (Brand)</th>
-		<th data-type="number">Model number</th>
-        <th data-type="number">Quantity</th>
-        <th data-type="number">Date adoption</th>
-        <th data-type="number">Date issue</th>
-        <th data-type="number">Price</th>`;
-	mainTable.tBodies[0].innerHTML = `	
-        <tr>
-		    <td>{{ sklad.category }}</td>
-			<td>{{ sklad.fason }}</td>
-			<td>{{ sklad.brand }}</td>
-			<td>{{ sklad.model }}</td>
-		    <td>{{ sklad.quantity }}</td>
-		    <td>{{ sklad.date_adoption }}</td>
-		    <td>{{ sklad.date_issue }}</td>
-		    <td>{{ sklad.price }}</td>
-		</tr>`
-}
-filledInApp.onclick = function(){
-	for (let i = 0; i < mainTable.parentNode.childNodes.length; i++) {
-
-      // отфильтровать не-элементы
-      if (mainTable.parentNode.childNodes[i].nodeType != 3) continue;
-       mainTable.parentNode.childNodes[i].remove();
-
-    }
-	mainTable.insertAdjacentHTML('beforeBegin',`{% for product in first_table_result %}`);
-	mainTable.insertAdjacentHTML('afterEnd',`{% endfor %}`);
-	mainTable.tHead.rows[0].innerHTML = `
-		<th data-type="string">Category</th>
-		<th data-type="string">Type (Fason)</th>
-		<th data-type="string">Manufacturer (Brand)</th>
-		<th data-type="number">Model number</th>
-        <th data-type="number">Quantity</th>
-        <th data-type="number">Date adoption</th>
-        <th data-type="number">Date issue</th>`;
-	mainTable.tBodies[0].innerHTML = `	    
-        <tr>
-            <td>{{ product[1].category}}</td>
-			<td>{{ product[1].fason }}</td>
-			<td>{{ product[1].brand }}</td>
-			<td>{{ product[1].model }}</td>
-            <td>{{ product[0].quantity }}</td>
-            <td>{{ product[0].date_adoption }}</td>
-            <td>{{ product[0].date_issue }}</td>
-		</tr>`
+	filledInApp.allApp = function(){
+		for (let i = 0; i < mainTable.tbody.rows.length; i++) {
+			mainTable.tHead.rows[i].hidden = false;
+		}
 	}
 }
+
 if(mainTable){
 mainTable.onclick = function(event){
 		if(event.target.tagName != 'TH') return;

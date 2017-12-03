@@ -6,7 +6,6 @@ body{
 /*Resgistration,sign-in page*/
 
 
-
 .signIn{
 	background-color: white;
 	border: 1px solid rgb(205,205,205);
@@ -144,6 +143,7 @@ body{
 	border-collapse: collapse;
 	color: #ffffff;
 	table-layout: fixed;
+	/*word-wrap:break-word;*/
 }
 .mainMenu th{
 	
@@ -160,6 +160,7 @@ body{
 .mainList td{
 	padding: 7px 1px;
 	border: 1px solid rgb(218, 234, 236);
+	vertical-align: middle;
 }
 .logo{
 	float: right;
@@ -209,27 +210,31 @@ body{
       -webkit-box-shadow: 3px 3px 3px rgba(0, 0, 0, .3);
               box-shadow: 3px 3px 3px rgba(0, 0, 0, .3);
 }
-.formDropDown{
+
+#receiptForm select{
+	display: block;
 	width: 90%;
 	margin:10px auto;
-	-webkit-box-shadow: none;
-	        box-shadow: none;
-
-}
-#category_opt{
-	width: 100%;
 	color: black;
-	margin:0 auto;
 	-webkit-box-shadow: none;
 	        box-shadow: none;
 	border: 1px solid rgb(175,175,175);
 	height: 30px;
 	padding: 0;
 	background-color: white;
-	border-radius: 5px;
 	height: 35px;
-
 }
-#category_opt option{
-	width: 100%;
+
+/*ADMIN PAGE*/
+.acceptButton{
+	display: inline-block;
+	border-radius: 5px;
+	padding: 5px;
+	background-color: rgb(0, 117, 211);
+	border: 1px solid #f2ecf4;
+	color: rgb(255, 255, 255);
+	max-width: 200px;
+}
+.acceptButton:hover{
+	cursor: pointer;
 }
