@@ -23,6 +23,7 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=True)
     email = db.Column(db.String(120), unique=True)
     username = db.Column(db.String(80), unique=True)
+    applications_user = db.relationship('Application_receipt', backref='applic_user', lazy='dynamic')
 
     def __init__(self, login, password, email, username):
         self.login = login
@@ -96,9 +97,9 @@ class Application_receipt(db.Model):
     quantity = db.Column(db.INTEGER)
     date_adoption = db.Column(db.Date)
     date_issue = db.Column(db.Date)
-    provider_id = db.Column(db.INTEGER)
+    provider_id = db.Column(db.INTEGER,db.ForeignKey('user.id'))
     price = db.Column(db.INTEGER)
-    confirmed = db.Column(db.BOOLEAN, default=False)
+    confirmed = db.Column(db.BOOLEAN)
 
     def __init__(self,complect_id, quantity,date_adoption,date_issue, provider_id,price,confirmed):
         self.complect_id = complect_id

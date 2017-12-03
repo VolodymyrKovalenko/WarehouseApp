@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, json,jsonify
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import sha256_crypt
+from sqlalchemy import update
 from sqlalchemy.orm import query
 from sqlalchemy.sql import select
 import time
@@ -142,10 +143,59 @@ def receipt_application():
 
     return render_template('applicationForReceipt.html', form = form, categoty_html = categories_names,fason_html=fason_names)
 
+
+@app.route('/admin', methods=['GET','POST'])
+def AdminPage():
+    conn = db.engine.connect()
+    join_table_admin = db.session \
+        .query(Application_receipt, Complect, Brand, Model, Fason, Category, User) \
+        .join(Complect) \
+        .filter(Application_receipt.complect_id == Complect.id) \
+        .join(Brand) \
+        .filter(Complect.brands_id == Brand.id) \
+        .join(Model) \
+        .filter(Complect.models_id == Model.id) \
+        .join(Fason) \
+        .filter(Complect.fason_id == Fason.id) \
+        .join(Category) \
+        .filter(Fason.categories_id == Category.id)\
+        .join(User)\
+        .filter(Application_receipt.provider_id == User.id)
+
+    conn.close()
+
+    if request.method == 'POST':
+        conn = db.engine.connect()
+        app_id = request.form['but1']
+        app_id = app_id[7:]
+        #confirmed_button = Application_receipt(confirmed=True)
+        #print(confirmed_button)
+        db.session.query(Application_receipt).filter(Application_receipt.id == app_id).\
+            update({'confirmed':True})
+        db.session.commit()
+        conn.close()
+
+        return redirect(url_for('AdminPage'))
+
+    return render_template('adminPage.html',admin_table = join_table_admin)
+
 @app.route('/handler1',methods=['POST'])
 def AjaxCategory():
     id_category = request.form['categor']
     return json.dumps({'status': 'OK','brand': id_category})
+
+
+# @app.route('/handler2',methods=['POST'])
+# def AjaxAdmin():
+#     id_app = request.form['app_id']
+#     print(id_app)
+#     return json.dumps({'status': 'OK','brand': id_app})
+
+# @app.route('/user/<nickname>')
+# def user(nickname):
+#     user = User.query.filter_by(nickname = nickname).first()
+#
+#     return render_template('user.html')
 
 if __name__ == '__main__':
     app.secret_key='secret123'

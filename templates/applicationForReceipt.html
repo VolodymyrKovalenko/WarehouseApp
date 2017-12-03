@@ -33,20 +33,21 @@
 
                         <script>
                             var categoryId = 1;
-
                             category.onclick = function(event){
                                 if(event.target.tagName != 'OPTION') return;
                                 categoryId = event.target.value;
 
-                                let lenght = selectFason.children.length;
-                                for(let i = 0; i < lenght; i++){
-                                    selectFason.children[i].remove();
+                                let length = selectFason.children.length;
+                                for(let i = length-1; i >= 0; i--){
+{#                                    if(selectFason.children[i].dataValue != categoryId)#}
+                                        selectFason.children[i].remove();
                                 }
                                 {% for fas in fason_html %}
                                     if ('{{fas.categories_id}}' == categoryId){
                                         let opt = document.createElement('option');
                                         opt.innerHTML = '{{fas.name}}';
                                         opt.value = '{{fas.name}}';
+{#                                        opt.dataValue = '{{fas.categories_id}}';#}
                                         selectFason.append(opt);
                                     }
                                 {% endfor %}

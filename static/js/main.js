@@ -4,7 +4,7 @@ let input = document.getElementById('amount');
 if(input){
 	if(category.value != parseInt(category.value)) var priceForUnit = 1
 	else priceForUnit = category.value;
-	
+
 	var priceForCategory = 12 + priceForUnit;
 
 	input.onfocus = function(){
@@ -17,18 +17,18 @@ if(input){
 		if(coords.top - tooltip.offsetHeight - 10 < 0) tooltip.style.top = coords.bottom + 10 + 'px';
 		else tooltip.style.top = coords.top - tooltip.offsetHeight - 10 + 'px';
 	}
-	input.oninput = function(){	
+	input.oninput = function(){
 		let tooltip = document.querySelector('.tooltip1');
 		if(input.value > 0) {
-			tooltip.innerHTML = "Price for the unit: " + priceForCategory + "\nTotal price:" + (input.value * priceForCategory) + ' UAH'; //мінять ціну тут			
+			tooltip.innerHTML = "Shoes - 13 UAH; Outerwere - 14 UAH; Pants - 15 UAH; per unit"; //мінять ціну тут
 		}
-		else {			
+		else {
 			tooltip.innerHTML = "Uncorrect value";
 		}
 	}
 	input.onblur = function() {
 		let tooltip = document.querySelector('.tooltip1');
-		tooltip.remove();	
+		tooltip.remove();
 	}
 }
 
@@ -41,20 +41,30 @@ let mainTable = document.getElementsByClassName('mainTable')[0];
 if(acceptedApp && filledInApp){
 
 	acceptedApp.onclick = function(){
-		for (let i = 0; i < mainTable.tbody.rows.length; i++) {
-			mainTable.tHead.rows[i].hidden = !mainTable.tHead.rows[i].cells[8];
+		for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
+			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'False')
+				mainTable.tBodies[0].rows[i].hidden = true;
+			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'True')
+				mainTable.tBodies[0].rows[i].hidden = false;
+			mainTable.tBodies[0].rows[i].cells[10].hidden = true;
+			mainTable.tHead.rows[0].cells[10].hidden = true;
 		}
 	}
 
 	filledInApp.onclick = function(){
-		for (let i = 0; i < mainTable.tbody.rows.length; i++) {
-			mainTable.tHead.rows[i].hidden = mainTable.tHead.rows[i].cells[8];
+		for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
+			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'False')
+				mainTable.tBodies[0].rows[i].hidden = false;
+			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'True')
+				mainTable.tBodies[0].rows[i].hidden = true;
+			mainTable.tBodies[0].rows[i].cells[10].hidden = true;
+			mainTable.tHead.rows[0].cells[10].hidden = true;
 		}
 	}
 
-	filledInApp.allApp = function(){
-		for (let i = 0; i < mainTable.tbody.rows.length; i++) {
-			mainTable.tHead.rows[i].hidden = false;
+	allApp.onclick = function(){
+		for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
+			mainTable.tBodies[0].rows[i].hidden = false;
 		}
 	}
 }
