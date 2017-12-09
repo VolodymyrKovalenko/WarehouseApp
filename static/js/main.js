@@ -42,23 +42,28 @@ if(acceptedApp && filledInApp){
 
 	acceptedApp.onclick = function(){
 		for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
-			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'False')
+			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Unissued')
 				mainTable.tBodies[0].rows[i].hidden = true;
-			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'True')
+			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Issued')
 				mainTable.tBodies[0].rows[i].hidden = false;
-			mainTable.tBodies[0].rows[i].cells[10].hidden = true;
-			mainTable.tHead.rows[0].cells[10].hidden = true;
+			if(mainTable.tBodies[0].rows[i].cells[10]){
+				mainTable.tBodies[0].rows[i].cells[10].hidden = true;
+				mainTable.tHead.rows[0].cells[10].hidden = true;
+			}
+
 		}
 	}
 
 	filledInApp.onclick = function(){
 		for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
-			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'False')
+			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Unissued')
 				mainTable.tBodies[0].rows[i].hidden = false;
-			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'True')
+			if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Issued')
 				mainTable.tBodies[0].rows[i].hidden = true;
-			mainTable.tBodies[0].rows[i].cells[10].hidden = true;
-			mainTable.tHead.rows[0].cells[10].hidden = true;
+			if(mainTable.tBodies[0].rows[i].cells[10]){
+				mainTable.tBodies[0].rows[i].cells[10].hidden = true;
+				mainTable.tHead.rows[0].cells[10].hidden = true;
+			}
 		}
 	}
 

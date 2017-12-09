@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Add new type and sort</title>
+	<link rel="stylesheet" type="text/css" href="../static/css/reset.css">
+	<link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../static/css/var25_css.css"> <!-- підключи js нормально -->
+
+</head>
+<body>
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-10 offset-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
+				<div class="signIn">
+					<div class="signHead">
+						<a class="goToSingIn" href="applicationForReceipt.html" style="width: 100%">Add new fason</a>
+					</div>
+
+					<form id="AddTypeForm" method="post" action="">
+                        <input type="text" name="category" placeholder="Category" value="{{ request.form.category }}">
+                        <input type="text" name="fason" placeholder="Fason" value="{{ request.form.fason }}">
+                        <input id="amount" type="number" name="price" placeholder="Category price" value="{{request.form.price}}" min=0 >
+                        <p><input type="submit" class="btn btn-primary" value="Create new type"></p>
+					</form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

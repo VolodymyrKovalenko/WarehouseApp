@@ -143,7 +143,7 @@ body{
 	border-collapse: collapse;
 	color: #ffffff;
 	table-layout: fixed;
-	margin-left: -10px;
+	margin-left: -25px;
 	/*word-wrap:break-word;*/
 }
 .mainMenu th{

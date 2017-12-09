@@ -5,10 +5,11 @@ from sqlalchemy import update
 from sqlalchemy.orm import query
 from sqlalchemy.sql import select
 import time
+from datetime import date, datetime
 
 
-from forms import LoginForm, RegisterForm, ReceiptForm
-from warehouseDB_ORM import User,Application_receipt, Complect, Category, Fason, Brand, Model
+from forms import LoginForm, RegisterForm, ReceiptForm, NewCategoryForm
+from warehouseDB_ORM import User,Application_receipt, Complect, Category, Fason, Brand, Model, Sklad
 from arrow import now
 
 app = Flask(__name__)
@@ -31,6 +32,7 @@ def registration():
         db.session.commit()
         session['curent_user'] = admin.login
 
+
         return redirect(url_for('main_page'))
     return render_template('registration.html',form=form)
 
@@ -45,8 +47,8 @@ def login():
         session['curent_user'] = user.login
 
         if sha256_crypt.verify(password_form_candidate,user.password):
-            if user.login == 'admin88':
-                return redirect(url_for('admin_page'))
+            if user.login == 'Admin99':
+                return redirect(url_for('AdminPage'))
             return redirect(url_for('main_page'))
     return render_template('singIn.html')
 
@@ -173,29 +175,98 @@ def AdminPage():
         db.session.query(Application_receipt).filter(Application_receipt.id == app_id).\
             update({'confirmed':True})
         db.session.commit()
+        sklad_application_id = app_id
+        sklad_issued = False
+        sklad_appl = Sklad(sklad_application_id,sklad_issued)
+        db.session.add(sklad_appl)
+        db.session.commit()
         conn.close()
 
         return redirect(url_for('AdminPage'))
 
     return render_template('adminPage.html',admin_table = join_table_admin)
 
-@app.route('/handler1',methods=['POST'])
-def AjaxCategory():
-    id_category = request.form['categor']
-    return json.dumps({'status': 'OK','brand': id_category})
+
+@app.route('/adminIssue', methods=['GET','POST'])
+def IssuedPage():
+    conn = db.engine.connect()
+    join_table_admin = db.session \
+        .query(Application_receipt, Complect, Brand, Model, Fason, Category, User,Sklad) \
+        .join(Complect) \
+        .filter(Application_receipt.complect_id == Complect.id) \
+        .join(Brand) \
+        .filter(Complect.brands_id == Brand.id) \
+        .join(Model) \
+        .filter(Complect.models_id == Model.id) \
+        .join(Fason) \
+        .filter(Complect.fason_id == Fason.id) \
+        .join(Category) \
+        .filter(Fason.categories_id == Category.id)\
+        .join(User)\
+        .filter(Application_receipt.provider_id == User.id)\
+        .filter(Application_receipt.confirmed==True)\
+        .join(Sklad)\
+        .filter(Application_receipt.id == Sklad.application_id)
+
+    conn.close()
+
+    if request.method == 'POST':
+        conn = db.engine.connect()
+        app_id = request.form['but2']
+        app_id = app_id[10:]
+        print(app_id)
+        iss_date = datetime.now()
+        iss_date = iss_date.date()
+        print(iss_date)
+        adopt_date = db.session.query(Application_receipt).filter_by(id = app_id).first()
+        adopt_date = adopt_date.date_adoption
+        print(adopt_date)
+
+        delta_days = adopt_date - iss_date
+        delta_days = delta_days.days
+        db.session.query(Sklad).filter(Sklad.application_id == app_id). \
+            update({'issued': True,'actual_date_of_issue':iss_date,'days_in_warehouse':delta_days})
+        db.session.commit()
+        conn.close()
+        return redirect(url_for('IssuedPage'))
+
+    return render_template('IssuedPage.html', admin_table=join_table_admin)
+
+@app.route('/newType', methods=['GET', 'POST'])
+def TypePage():
+    form = NewCategoryForm(request.form)
+    conn = db.engine.connect()
+    if request.method == 'POST' and form.validate():
+        category_name = form.category.data
+        category_price = form.price.data
+        db_price = Category.query.filter_by(name = category_name).first()
+        db_price = db_price.price
 
 
-# @app.route('/handler2',methods=['POST'])
-# def AjaxAdmin():
-#     id_app = request.form['app_id']
-#     print(id_app)
-#     return json.dumps({'status': 'OK','brand': id_app})
+        if db.session.query(Category).filter_by(name= category_name).scalar() == None:
 
-# @app.route('/user/<nickname>')
-# def user(nickname):
-#     user = User.query.filter_by(nickname = nickname).first()
-#
-#     return render_template('user.html')
+            category_db = Category(category_name,category_price)
+            db.session.add(category_db)
+            db.session.commit()
+
+        if db_price != category_price:
+            db.session.query(Category).filter(Category.name==category_name).\
+                update({'price':category_price})
+            db.session.commit()
+
+
+        fason_name = form.fason.data
+        if db.session.query(Fason).filter_by(name=fason_name).scalar() == None:
+
+            categories_id = db.session.query(Category).filter_by(name=category_name).first()
+            categories_id = categories_id.id
+            print(categories_id)
+            fason_db = Fason(fason_name,categories_id)
+            db.session.add(fason_db)
+            db.session.commit()
+        conn.close()
+        return redirect(url_for('AdminPage'))
+    return render_template('AddNewType.html')
 
 if __name__ == '__main__':
     app.secret_key='secret123'

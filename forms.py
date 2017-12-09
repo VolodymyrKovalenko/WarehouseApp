@@ -18,7 +18,7 @@ class LoginForm(Form):
 
 class RegisterForm(Form):
     login = StringField('Login', [validators.Length(min=5, max=50)])
-    password = StringField('Password',[
+    password = PasswordField('Password',[
         validators.DataRequired(),
         validators.EqualTo('confirm',message='Password do not match')
     ])
@@ -33,3 +33,9 @@ class ReceiptForm(Form):
     quantity = IntegerField('Quantity')
     date_adoption = DateField('Data adoption')
     date_issue = DateField('Data isuue')
+
+
+class NewCategoryForm(Form):
+    category = StringField('Category',[validators.Length(min=2,max=50)])
+    fason = StringField('Fason', [validators.Length(min=2, max=50)])
+    price = IntegerField('Price')

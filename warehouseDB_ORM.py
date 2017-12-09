@@ -67,9 +67,9 @@ class Fason(db.Model):
     categories_id = db.Column(db.INTEGER, db.ForeignKey('category.id'))
     complects = db.relationship('Complect', backref='complect1', lazy='dynamic')
 
-    def __init__(self,name,category_id):
+    def __init__(self,name,categories_id):
         self.name = name
-        self.category_id = category_id
+        self.categories_id = categories_id
 
 class Brand(db.Model):
     __tablename__ = 'brand'
@@ -113,10 +113,17 @@ class Application_receipt(db.Model):
 class Sklad(db.Model):
     __tablename__ = 'sklad'
     id = db.Column(db.INTEGER, primary_key = True)
-    application_id = db.Column(db.INTEGER)
-    amount_days = db.Column(db.INTEGER)
-    overall_price = db.Column(db.INTEGER)
+    application_id = db.Column(db.INTEGER, db.ForeignKey('application_receipt.id'))
     issued = db.Column(db.BOOLEAN, default=False)
+    actual_date_of_issue = db.Column(db.Date)
+    days_in_warehouse = db.Column(db.INTEGER)
+
+
+    def __init__(self,application_id,issued,actual_date_of_issue,days_in_warehouse):
+        self.application_id = application_id
+        self.issued = issued
+        self.actual_date_of_issue = actual_date_of_issue
+        self.days_in_warehouse = days_in_warehouse
 
 if __name__ == '__main__':
     manager.run()
