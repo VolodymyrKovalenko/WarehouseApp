@@ -68,18 +68,21 @@
                             <td name="quantity">{{ product[0].quantity }}</td>
                             <td name="date1">{{ product[0].date_adoption }}</td>
                             <td name="date2">{{ product[0].date_issue }}</td>
-                            <td name="price">{{ product[0].price }}</td>
-                            {% if product[0].confirmed == True %}
-                                <td name="confirmed">Accepted</td>
-                            {% else %}
-                                <td>Unaccepted</td>
-                            {% endif %}
+                            <td name="price" id="price">{{ product[0].price }}</td>
+                            <script>
+                            	let price = document.getElementById('price');
+                            	if("{{product[0].confirmed}}" == "True"){
+                            		price.insertAdjacentHTML = (`afterEnd`, "<td name=\"confirmed\">Accepted</td>")
+                            	}
+                            	else price.insertAdjacentHTML = (`afterEnd`, "<td name=\"confirmed\">Unaccepted</td>")
+                            </script>
                             <td name="login">{{ product[6].login }}</td>
                             {% if product[0].confirmed == False%}
                             <td><input name="but1" type="submit" id = "app_id" class="acceptButton" value="Accept {{ product[0].id }}"></td>
                                 {% else %}
                                 <td style="padding-left:10px;">Already {{ product[0].id }}</td>
                             {% endif %}
+                            	}
 						</tr>
                         </form>
                     {% endfor %}
