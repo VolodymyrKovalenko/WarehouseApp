@@ -24,7 +24,7 @@
 			<div class="col-3">
 				<div class="userMenu">
 					<a id="acceptedApp" href="#">+ Show only accepted applications</a>
-					<a id="filledInApp" href="#">+ Show filled in applications</a>
+					<a id="filledInApp" href="#">+ Show unaccepted applications</a>
 					<a id="allApp" href="">+ Show all applications</a>
                     <a style="margin-top: 270px; background-color: #19663f" href="/adminIssue" >+ Issue warehouse goods</a>
 				</div>
@@ -87,6 +87,48 @@
 				</table>
 			</div>
 		</div>
+    <script>
+            let acceptedApp = document.getElementById('acceptedApp');
+            let filledInApp = document.getElementById('filledInApp');
+            let mainTable = document.getElementsByClassName('mainTable')[0];
+
+            if(acceptedApp && filledInApp){
+
+                acceptedApp.onclick = function(){
+                    for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
+                        if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Unaccepted')
+                            mainTable.tBodies[0].rows[i].hidden = true;
+                        if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Accepted')
+                            mainTable.tBodies[0].rows[i].hidden = false;
+                        if(mainTable.tBodies[0].rows[i].cells[10]){
+                            mainTable.tBodies[0].rows[i].cells[10].hidden = true;
+                            mainTable.tHead.rows[0].cells[10].hidden = true;
+                        }
+
+                    }
+                }
+
+                filledInApp.onclick = function(){
+                    for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
+                        if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Unaccepted')
+                            mainTable.tBodies[0].rows[i].hidden = false;
+                        if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Accepted')
+                            mainTable.tBodies[0].rows[i].hidden = true;
+                        if(mainTable.tBodies[0].rows[i].cells[10]){
+                            mainTable.tBodies[0].rows[i].cells[10].hidden = true;
+                            mainTable.tHead.rows[0].cells[10].hidden = true;
+                        }
+                    }
+                }
+
+                allApp.onclick = function(){
+                    for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
+                        mainTable.tBodies[0].rows[i].hidden = false;
+                    }
+                }
+            }
+
+        </script>
 		
 <!-- {#				<div class="mainList">#}
 {#					{% extends "base.html" %}#}

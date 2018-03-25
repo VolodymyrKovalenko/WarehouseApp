@@ -147,7 +147,6 @@ body{
 	/*word-wrap:break-word;*/
 }
 .mainMenu th{
-	
 	padding: 7px 1px;
 	color: rgb(238, 234, 255);
 	font-weight: bold;
@@ -256,3 +255,28 @@ body{
 	border-left: 1px solid rgb(218, 234, 236);
 }
 
+/*ADD CATEGORY PAGE*/
+#categoryTable{
+	width: 90%;
+	text-align: center;
+	border-collapse: collapse;
+	color: rgb(0, 91, 171)
+	table-layout: fixed;
+	margin: 0 auto;
+}
+#categoryTable th{
+	padding: 7px 1px;
+	color: rgb(0, 91, 171);
+	font-weight: bold;
+	vertical-align: middle;
+	border: 1px solid rgb(0, 91, 171);
+	background-color: rgb(242, 236, 244);
+}
+#categoryTable tr:hover{
+	background-color: #6b6b6b;
+}
+#categoryTable td{
+	padding: 7px 1px;
+	border: 1px solid rgb(0, 91, 171);
+	vertical-align: middle;
+}

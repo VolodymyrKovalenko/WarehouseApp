@@ -17,17 +17,54 @@
 			<div class="col-10 offset-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
 				<div class="signIn">
 					<div class="signHead">
-						<a class="goToSingIn" href="applicationForReceipt.html" style="width: 100%">Add new fason</a>
+						<a class="goToSingIn" href="" style="width: 100%">Add new category, fason</a>
 					</div>
 
 					<form id="AddTypeForm" method="post" action="">
-                        <input type="text" name="category" placeholder="Category" value="{{ request.form.category }}">
-                        <input type="text" name="fason" placeholder="Fason" value="{{ request.form.fason }}">
-                        <input id="amount" type="number" name="price" placeholder="Category price" value="{{request.form.price}}" min=0 >
+                        <input type="text" name="category" placeholder="New category" value="{{ request.form.category }}">
+                        <input type="number" name="price" placeholder="New category price" value="{{request.form.price}}" min=0 >
+                        <input type="text" name="fason" placeholder="New fason" value="{{ request.form.fason }}">
+
+                        <input type="button" id="showCategories" value="Show categories">
+                        <table id="categoryTable" hidden="true">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Fason</th>
+                                </tr>
+                            </thead>
+                            {% for categ in all_categ %}
+                            <tr>
+                                <td>{{ categ[0].name }}</td>
+                                <td>{{ categ[0].price }}</td>
+                                <td>{{ categ[1].name }}</td>
+                            </tr>
+                            {% endfor %}
+
+
+                        </table>
+                        <script>
+                            let categoryTable = document.getElementById('categoryTable');
+                            let prevCategory = categoryTable.tBodies[0].rows[0].cells[0].innerHTML;
+                            let i = 1;
+                            while(i != categoryTable.tBodies[0].rows.length){
+                                let currentCategory = categoryTable.tBodies[0].rows[i].cells[0].innerHTML;
+                                if(prevCategory == currentCategory){
+                                    categoryTable.tBodies[0].rows[i-1].cells[2].innerHTML += ", " + categoryTable.tBodies[0].rows[i].cells[2].innerHTML;
+                                    categoryTable.tBodies[0].rows[i].remove();
+                                } else{
+                                    i++;
+                                    prevCategory = currentCategory;
+                                }
+                            }
+                        </script>
                         <p><input type="submit" class="btn btn-primary" value="Create new type"></p>
 					</form>
+
                 </div>
             </div>
         </div>
     </div>
+<script type="text/javascript" src="../static/js/main.js"></script>
 </body>

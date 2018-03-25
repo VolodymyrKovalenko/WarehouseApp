@@ -58,12 +58,17 @@ def start_page():
     session.clear()
     return render_template('startPage.html')
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html')
+
 @app.route('/main',methods=['GET','POST'])
 def main_page():
     conn = db.engine.connect()
 
     sesion_user_login = session['curent_user']# counterpart for session
     curent_id = User.query.filter(User.login == sesion_user_login).first()
+    print(curent_id)
     curent_id = curent_id.id
 
 
@@ -96,17 +101,13 @@ def receipt_application():
     form = ReceiptForm(request.form)
     conn = db.engine.connect()
     session_user_login = session['curent_user']
-
     categories_names = db.session.query(Category)
     fason_names = db.session.query(Fason)
 
     if request.method == 'POST' and form.validate():
-
         id_category = request.form['categor']
         category_price = Category.query.filter_by(id=id_category).first().price
         name_fason = request.form['fas']
-
-
         brand_name = form.brand.data
         model_name = form.model.data
         if db.session.query(Brand.name).filter_by(name=brand_name).scalar() == None:
@@ -135,14 +136,12 @@ def receipt_application():
         app_price = app_quantity * category_price
         app_confirmed = False
 
-        #date_adoption = now().format('YYYY-MM-DD')
         receipt_app = Application_receipt(app_complect_id,app_quantity,app_date_adoption,app_date_issue,app_provider_id,app_price,app_confirmed)
         db.session.add(receipt_app)
         db.session.commit()
         conn.close()
 
         return redirect(url_for('main_page'))
-
     return render_template('applicationForReceipt.html', form = form, categoty_html = categories_names,fason_html=fason_names)
 
 
@@ -222,7 +221,7 @@ def IssuedPage():
         adopt_date = adopt_date.date_adoption
         print(adopt_date)
 
-        delta_days = adopt_date - iss_date
+        delta_days = iss_date-adopt_date
         delta_days = delta_days.days
         db.session.query(Sklad).filter(Sklad.application_id == app_id). \
             update({'issued': True,'actual_date_of_issue':iss_date,'days_in_warehouse':delta_days})
@@ -232,10 +231,16 @@ def IssuedPage():
 
     return render_template('IssuedPage.html', admin_table=join_table_admin)
 
-@app.route('/newType', methods=['GET', 'POST'])
-def TypePage():
+@app.route('/newCategory', methods=['GET', 'POST'])
+def CategoryPage():
     form = NewCategoryForm(request.form)
     conn = db.engine.connect()
+    #categories_all = db.session.query(Category)
+    #fasons_all = db.session.query(Fason)
+    join_table = db.session.query(Category,Fason)\
+    .join(Fason)\
+    .filter(Category.id == Fason.categories_id)
+
     if request.method == 'POST' and form.validate():
         category_name = form.category.data
         category_price = form.price.data
@@ -265,8 +270,8 @@ def TypePage():
             db.session.add(fason_db)
             db.session.commit()
         conn.close()
-        return redirect(url_for('AdminPage'))
-    return render_template('AddNewType.html')
+        return redirect(url_for('IssuedPage'))
+    return render_template('AddNewType.html', all_categ = join_table)
 
 if __name__ == '__main__':
     app.secret_key='secret123'

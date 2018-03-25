@@ -7,18 +7,52 @@
 	<link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous" media="all">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="../static/css/var25_css.css">
-    <style media="print">
-  .noPrint{ display: none; }
-  .yesPrint{ display: block !important; word-wrap:break-word;}
-        .mainTable{width: 100%;}
-</style>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
 </head>
 <body>
 	<div class="container leftPart noPrint">
 		<div class="row">
 			<div class="col-3">
 				<div class="userData">
-					<p class="login">ONLINE</p>
+                    <div id="reactProgram"></div>
+
+                    <script type="text/babel">
+                        class Check extends React.Component{
+                            constructor(props) {
+                                super(props);
+                                this.state = {
+                                  checked: true,
+                                };
+                              };
+                            handleCheck  = () =>{
+                                this.setState({checked: !this.state.checked});
+                            };
+
+                            render() {
+                                var message;
+                                if (this.state.checked){
+                                    message = 'ONLINE';
+                                } else{
+                                    message = 'OFFLINE'
+                                }
+                                return(
+                                    <div>
+                                        <input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/>
+                                        <p>{message}</p>
+                                    </div>
+                                );
+                            }
+                        }
+
+                        const app = document.getElementById("reactProgram");
+
+                        ReactDOM.render(<Check />,app);
+
+                    </script>
+
 					<p class="firm">{{ curent_user }}</p>
                     <a href="/" name="logOut" class="logOut" >LogOut</a>
 				</div>
@@ -31,7 +65,7 @@
 					<a id="acceptedApp" href="#">+ Show only accepted applications</a>
 					<a id="filledInApp" href="#">+ Show filled in applications</a>
 					<a id="allApp" href="">+ Show all applications</a>
-                    <a TYPE="button" onClick="window.print()" style="color:white">+ Print</a>
+
 				</div>
 			</div>
 		</div>
@@ -56,7 +90,7 @@
                         <th data-type="number">Date adoption</th>
                         <th data-type="number">Date issue</th>
                         <th data-type="number">Price</th>
-                        <th data-type="number">Confirmed app</th>
+                        <th data-type="number">Application status</th>
 					</thead>
 					<tbody class="mainList">
                     {% for product in second_table %}
@@ -69,21 +103,60 @@
                             <td>{{ product[0].date_adoption }}</td>
                             <td>{{ product[0].date_issue }}</td>
                             <td>{{ product[0].price }}</td>
-                            <td>{{ product[0].confirmed }}</td>
+                            {% if product[0].confirmed == True %}
+                                <td>Accepted</td>
+                                {% else %}
+                                <td>Unaccepted</td>
+                            {% endif %}
+
 						</tr>
                     {% endfor %}
 					</tbody>
 				</table>
 			</div>
 		</div>
-		
-<!-- {#				<div class="mainList">#}
-{#					{% extends "base.html" %}#}
-{#					{% block content %}#}
-{#					<div><p>{{goods.category}}</p><p>{{goods.material}}</p><p>{{goods.fashion}}</p><p>{{goods.brand}}</p></div>#}
-{#					{% endfor %}#}
-{#					{% endblock %}#}
-{#				</div>#} -->
+        <script>
+            let acceptedApp = document.getElementById('acceptedApp');
+            let filledInApp = document.getElementById('filledInApp');
+            let mainTable = document.getElementsByClassName('mainTable')[0];
+
+            if(acceptedApp && filledInApp){
+
+                acceptedApp.onclick = function(){
+                    for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
+                        if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Unaccepted')
+                            mainTable.tBodies[0].rows[i].hidden = true;
+                        if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Accepted')
+                            mainTable.tBodies[0].rows[i].hidden = false;
+                        if(mainTable.tBodies[0].rows[i].cells[10]){
+                            mainTable.tBodies[0].rows[i].cells[10].hidden = true;
+                            mainTable.tHead.rows[0].cells[10].hidden = true;
+                        }
+
+                    }
+                }
+
+                filledInApp.onclick = function(){
+                    for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
+                        if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Unaccepted')
+                            mainTable.tBodies[0].rows[i].hidden = false;
+                        if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Accepted')
+                            mainTable.tBodies[0].rows[i].hidden = true;
+                        if(mainTable.tBodies[0].rows[i].cells[10]){
+                            mainTable.tBodies[0].rows[i].cells[10].hidden = true;
+                            mainTable.tHead.rows[0].cells[10].hidden = true;
+                        }
+                    }
+                }
+
+                allApp.onclick = function(){
+                    for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
+                        mainTable.tBodies[0].rows[i].hidden = false;
+                    }
+                }
+            }
+
+        </script>
 
 			
 	</div>

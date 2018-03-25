@@ -105,3 +105,12 @@ mainTable.onclick = function(event){
 		}
 	}
 }
+let showCategories = document.getElementById('showCategories');
+if(showCategories){
+	console.log(1);
+	let categoryTable = document.getElementById('categoryTable');
+	showCategories.onclick = function () {
+		categoryTable.hidden = !categoryTable.hidden;
+    }
+
+}
