@@ -57,7 +57,6 @@
                         <th data-type="number">Date adoption</th>
                         <th data-type="number">Actual date issue</th>
                         <th data-type="number">Price</th>
-                        <th data-type="number">Status</th>
                         <th data-type="string">User</th>
                         <th></th>
 
@@ -79,14 +78,9 @@
                             {% endif %}
 
                             <td name="price">{{ product[0].price }}</td>
-                            {% if product[7].issued == True %}
-                                <td name="confirmed">Issued</td>
-                            {% else %}
-                                <td>Unissued</td>
-                            {% endif %}
                             <td name="login">{{ product[6].login }}</td>
                             {% if product[7].issued == False %}
-                            <td><input name="but2" type="submit" id = "app_id" class="acceptButton" value="Give Away {{ product[0].id }}"></td>
+                                <td><a id = "app_id" class="acceptButton" href="change_issue_status/{{ product[0].id }}">Give Away</a></td>
                             {% else %}
                             <td style="padding-left: 15px;">Already {{ product[0].id }}</td>
                             {% endif %}
@@ -97,14 +91,6 @@
 				</table>
 			</div>
 		</div>
-
-<!-- {#				<div class="mainList">#}
-{#					{% extends "base.html" %}#}
-{#					{% block content %}#}
-{#					<div><p>{{goods.category}}</p><p>{{goods.material}}</p><p>{{goods.fashion}}</p><p>{{goods.brand}}</p></div>#}
-{#					{% endfor %}#}
-{#					{% endblock %}#}
-{#				</div>#} -->
 
 
 	</div>

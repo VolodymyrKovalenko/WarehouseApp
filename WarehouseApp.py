@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, json,jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, json,jsonify,g, Response
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import sha256_crypt
 from sqlalchemy import update
@@ -62,13 +62,18 @@ def start_page():
 def page_not_found(e):
     return render_template('404.html')
 
+@app.errorhandler(401)
+def custom_401(error):
+    return Response('<Why access is denied string goes here...>', 401, {'WWWAuthenticate':'Basic realm="Login Required"'})
+
+
 @app.route('/main',methods=['GET','POST'])
 def main_page():
+
     conn = db.engine.connect()
 
     sesion_user_login = session['curent_user']# counterpart for session
     curent_id = User.query.filter(User.login == sesion_user_login).first()
-    print(curent_id)
     curent_id = curent_id.id
 
 
@@ -92,8 +97,6 @@ def main_page():
     return render_template('mainPage.html',curent_user=sesion_user_login
                         ,second_table = join_table
                            )
-
-
 
 
 @app.route('/receipt',methods=['GET','POST'])
@@ -147,7 +150,6 @@ def receipt_application():
 
 @app.route('/admin', methods=['GET','POST'])
 def AdminPage():
-    conn = db.engine.connect()
     join_table_admin = db.session \
         .query(Application_receipt, Complect, Brand, Model, Fason, Category, User) \
         .join(Complect) \
@@ -163,32 +165,25 @@ def AdminPage():
         .join(User)\
         .filter(Application_receipt.provider_id == User.id)
 
-    conn.close()
-
-    if request.method == 'POST':
-        conn = db.engine.connect()
-        app_id = request.form['but1']
-        app_id = app_id[7:]
-        #confirmed_button = Application_receipt(confirmed=True)
-        #print(confirmed_button)
-        db.session.query(Application_receipt).filter(Application_receipt.id == app_id).\
-            update({'confirmed':True})
-        db.session.commit()
-        sklad_application_id = app_id
-        sklad_issued = False
-        sklad_appl = Sklad(sklad_application_id,sklad_issued)
-        db.session.add(sklad_appl)
-        db.session.commit()
-        conn.close()
-
-        return redirect(url_for('AdminPage'))
-
     return render_template('adminPage.html',admin_table = join_table_admin)
+
+@app.route('/change_status/<string:id>',methods=['POST','GET'])
+def change_status(id):
+    app_id = id
+    db.session.query(Application_receipt).filter(Application_receipt.id == app_id). \
+        update({'confirmed': True})
+    db.session.commit()
+    sklad_application_id = app_id
+    sklad_issued = False
+    sklad_appl = Sklad(sklad_application_id, sklad_issued,None,None)
+    db.session.add(sklad_appl)
+    db.session.commit()
+
+    return redirect(url_for('AdminPage'))
 
 
 @app.route('/adminIssue', methods=['GET','POST'])
 def IssuedPage():
-    conn = db.engine.connect()
     join_table_admin = db.session \
         .query(Application_receipt, Complect, Brand, Model, Fason, Category, User,Sklad) \
         .join(Complect) \
@@ -207,29 +202,26 @@ def IssuedPage():
         .join(Sklad)\
         .filter(Application_receipt.id == Sklad.application_id)
 
-    conn.close()
 
-    if request.method == 'POST':
-        conn = db.engine.connect()
-        app_id = request.form['but2']
-        app_id = app_id[10:]
-        print(app_id)
-        iss_date = datetime.now()
-        iss_date = iss_date.date()
-        print(iss_date)
-        adopt_date = db.session.query(Application_receipt).filter_by(id = app_id).first()
-        adopt_date = adopt_date.date_adoption
-        print(adopt_date)
-
-        delta_days = iss_date-adopt_date
-        delta_days = delta_days.days
-        db.session.query(Sklad).filter(Sklad.application_id == app_id). \
-            update({'issued': True,'actual_date_of_issue':iss_date,'days_in_warehouse':delta_days})
-        db.session.commit()
-        conn.close()
-        return redirect(url_for('IssuedPage'))
 
     return render_template('IssuedPage.html', admin_table=join_table_admin)
+
+@app.route('/change_issue_status/<string:id>',methods=['POST','GET'])
+def change_issue_status(id):
+    app_id = id
+    iss_date = datetime.now()
+    iss_date = iss_date.date()
+    adopt_date = db.session.query(Application_receipt).filter_by(id = app_id).first()
+    adopt_date = adopt_date.date_adoption
+
+    delta_days = iss_date-adopt_date
+    delta_days = delta_days.days
+    db.session.query(Sklad).filter(Sklad.application_id == app_id). \
+        update({'issued': True,'actual_date_of_issue':iss_date,'days_in_warehouse':delta_days})
+    db.session.commit()
+    return redirect(url_for('IssuedPage'))
+
+
 
 @app.route('/newCategory', methods=['GET', 'POST'])
 def CategoryPage():
@@ -247,7 +239,6 @@ def CategoryPage():
         db_price = Category.query.filter_by(name = category_name).first()
         db_price = db_price.price
 
-
         if db.session.query(Category).filter_by(name= category_name).scalar() == None:
 
             category_db = Category(category_name,category_price)
@@ -259,13 +250,11 @@ def CategoryPage():
                 update({'price':category_price})
             db.session.commit()
 
-
         fason_name = form.fason.data
         if db.session.query(Fason).filter_by(name=fason_name).scalar() == None:
 
             categories_id = db.session.query(Category).filter_by(name=category_name).first()
             categories_id = categories_id.id
-            print(categories_id)
             fason_db = Fason(fason_name,categories_id)
             db.session.add(fason_db)
             db.session.commit()
