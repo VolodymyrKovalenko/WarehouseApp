@@ -62,15 +62,11 @@ def start_page():
 def page_not_found(e):
     return render_template('404.html')
 
-@app.errorhandler(401)
-def custom_401(error):
-    return Response('<Why access is denied string goes here...>', 401, {'WWWAuthenticate':'Basic realm="Login Required"'})
-
 
 @app.route('/main',methods=['GET','POST'])
 def main_page():
-
-    conn = db.engine.connect()
+    if 'curent_user' not in session:
+        return jsonify({'error' : '401', 'message':'Unauthorized'}),401
 
     sesion_user_login = session['curent_user']# counterpart for session
     curent_id = User.query.filter(User.login == sesion_user_login).first()
@@ -90,9 +86,6 @@ def main_page():
         .filter(Complect.fason_id == Fason.id) \
         .join(Category) \
         .filter(Fason.categories_id == Category.id)
-
-
-    conn.close()
 
     return render_template('mainPage.html',curent_user=sesion_user_login
                         ,second_table = join_table
