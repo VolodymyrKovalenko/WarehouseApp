@@ -24,7 +24,7 @@
 			<div class="col-3">
 				<div class="userMenu">
 					<a id="acceptedApp" href="#">+ Show only accepted applications</a>
-					<a id="filledInApp" href="#">+ Show unaccepted applications</a>
+					<a id="filledInApp" href="#">+ Show filled in applications</a>
 					<a id="allApp" href="">+ Show all applications</a>
                     <a style="margin-top: 270px; background-color: #19663f" href="/adminIssue" >+ Issue warehouse goods</a>
 				</div>
@@ -49,78 +49,52 @@
 						<th data-type="string">Manufacturer (Brand)</th>
 						<th data-type="string">Model number</th>
                         <th data-type="number">Quantity</th>
+                        <th data-type="number">Date adoption</th>
+                        <th data-type="number">Date issue</th>
                         <th data-type="number">Price</th>
+                        <th data-type="number">Application status</th>
                         <th data-type="string">User</th>
                         <th></th>
 
 					</thead>
 					<tbody class="mainList ">
                     {% for product in admin_table %}
+                        <form name="AdminTable" method="post" action="/admin" enctype="multipart/form-data">
                         <tr>
                             <td name="category" id="category">{{ product[5].name}}</td>
 							<td name="fason">{{ product[4].name }}</td>
 							<td name="brand">{{ product[2].name }}</td>
 							<td name="model">{{ product[3].name }}</td>
                             <td name="quantity">{{ product[0].quantity }}</td>
+                            <td name="date1">{{ product[0].date_adoption }}</td>
+                            <td name="date2">{{ product[0].date_issue }}</td>
                             <td name="price">{{ product[0].price }}</td>
-                            <td name="login">{{ product[6].login }}</td>
-
-                            {% if product[0].confirmed == False%}
-
-                                <td class="my_new_td"><a  id = "currency" class="acceptButton"  href="change_status/{{ product[0].id }}" >Submit</a></td>
-
+                            {% if product[0].confirmed == True %}
+                                <td name="confirmed">Accepted</td>
                             {% else %}
+                                <td>Unaccepted</td>
+                            {% endif %}
+                            <td name="login">{{ product[6].login }}</td>
+                            {% if product[0].confirmed == False%}
+                            <td><input name="but1" type="submit" id = "app_id" class="acceptButton" value="Accept {{ product[0].id }}"></td>
+                                {% else %}
                                 <td style="padding-left:10px;">Already {{ product[0].id }}</td>
                             {% endif %}
-
 						</tr>
+                        </form>
                     {% endfor %}
 					</tbody>
 				</table>
 			</div>
 		</div>
-    <script>
-            let acceptedApp = document.getElementById('acceptedApp');
-            let filledInApp = document.getElementById('filledInApp');
-            let mainTable = document.getElementsByClassName('mainTable')[0];
-
-            if(acceptedApp && filledInApp){
-
-                acceptedApp.onclick = function(){
-                    for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
-                        if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Unaccepted')
-                            mainTable.tBodies[0].rows[i].hidden = true;
-                        if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Accepted')
-                            mainTable.tBodies[0].rows[i].hidden = false;
-                        if(mainTable.tBodies[0].rows[i].cells[10]){
-                            mainTable.tBodies[0].rows[i].cells[10].hidden = true;
-                            mainTable.tHead.rows[0].cells[10].hidden = true;
-                        }
-
-                    }
-                }
-
-                filledInApp.onclick = function(){
-                    for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
-                        if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Unaccepted')
-                            mainTable.tBodies[0].rows[i].hidden = false;
-                        if(mainTable.tBodies[0].rows[i].cells[8].innerHTML == 'Accepted')
-                            mainTable.tBodies[0].rows[i].hidden = true;
-                        if(mainTable.tBodies[0].rows[i].cells[10]){
-                            mainTable.tBodies[0].rows[i].cells[10].hidden = true;
-                            mainTable.tHead.rows[0].cells[10].hidden = true;
-                        }
-                    }
-                }
-
-                allApp.onclick = function(){
-                    for (let i = 0; i < mainTable.tBodies[0].rows.length; i++) {
-                        mainTable.tBodies[0].rows[i].hidden = false;
-                    }
-                }
-            }
-
-        </script>
+		
+<!-- {#				<div class="mainList">#}
+{#					{% extends "base.html" %}#}
+{#					{% block content %}#}
+{#					<div><p>{{goods.category}}</p><p>{{goods.material}}</p><p>{{goods.fashion}}</p><p>{{goods.brand}}</p></div>#}
+{#					{% endfor %}#}
+{#					{% endblock %}#}
+{#				</div>#} -->
 
 			
 	</div>
